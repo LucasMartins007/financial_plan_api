@@ -41,8 +41,6 @@ public class WebSecurityConfig {
                 .and()
                 .formLogin()
                 .disable()
-                .csrf()
-                .disable()
                 .httpBasic()
                 .disable()
                 .sessionManagement()
