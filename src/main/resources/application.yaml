@@ -1,3 +1,15 @@
+
+api:
+  base-path: financial_planning/v1/
+  no-secured-urls: /v3/api-docs, 
+                   /configuration/ui, 
+                   /swagger-resources/**, 
+                   /swagger-ui/**, 
+                   /configuration/security, 
+                   /webjars/**, 
+                   /actuator/**, 
+                   /login
+
 spring:
   profiles:
     active: develop
@@ -29,10 +41,10 @@ spring:
     password: admin
 
   flyway:
-#    user: lucas
-#    password: admin
-#    schemas: public
-#    flyway.url: jdbc:postgresql://localhost:5432/financial_planning
+    user: lucas
+    password: admin
+    schemas: public
+    flyway.url: jdbc:postgresql://localhost:5432/financial_planning
     locations: "classpath:/db/migration"
     enabled: true
     validate-on-migrate: true
@@ -40,4 +52,4 @@ spring:
   server:
     port: 8081
     servlet:
-      context-path: /financial_planning/v1/
+      context-path: ${api.base-path}
