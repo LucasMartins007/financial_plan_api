@@ -10,23 +10,18 @@ import java.util.Date;
 @Getter
 @Setter
 @EqualsAndHashCode
-public abstract class AbstractEntity<E extends Number> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @SequenceGenerator(name = "personSeq", sequenceName = "person_sequence", allocationSize = 1)
-    protected E id;
+public abstract class AbstractEntity {
 
     @Column(name = "include_date")
     @Temporal(TemporalType.DATE)
-    protected Date includeDate;
+    private Date includeDate;
 
     @Column(name = "update_date")
     @Temporal(TemporalType.DATE)
-    protected Date updateDate;
+    private Date updateDate;
 
     @Column(name = "active")
-    protected boolean active;
+    private boolean active;
 
     @PrePersist
     void preInsert() {

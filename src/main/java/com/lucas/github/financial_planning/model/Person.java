@@ -2,10 +2,10 @@ package com.lucas.github.financial_planning.model;
 
 
 import com.lucas.github.financial_planning.model.generic.AbstractEntity;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +13,12 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "person")
-public class Person extends AbstractEntity<Integer> {
+public class Person extends AbstractEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "personSeq", sequenceName = "person_sequence", allocationSize = 1)
+    private Integer id;
 
     @Column(name = "name")
     private String name;
