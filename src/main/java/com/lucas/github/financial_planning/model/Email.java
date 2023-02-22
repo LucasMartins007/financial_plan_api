@@ -1,20 +1,19 @@
 package com.lucas.github.financial_planning.model;
 
 import com.lucas.github.financial_planning.model.generic.AbstractEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "email")
-public class Email extends AbstractEntity {
+public class Email extends AbstractEntity<Integer> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @SequenceGenerator(name = "emailSeq", sequenceName = "email_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "email_id_gen")
+    @SequenceGenerator(name = "email_seq", sequenceName = "email_sequence", allocationSize = 1)
     private Integer id;
 
     @Column(name = "description")
@@ -26,5 +25,15 @@ public class Email extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_email_to_person"))
     private Person person;
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
 }

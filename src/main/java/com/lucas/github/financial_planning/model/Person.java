@@ -2,10 +2,10 @@ package com.lucas.github.financial_planning.model;
 
 
 import com.lucas.github.financial_planning.model.generic.AbstractEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -13,11 +13,11 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "person")
-public class Person extends AbstractEntity {
+public class Person extends AbstractEntity<Integer> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @SequenceGenerator(name = "personSeq", sequenceName = "person_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "person_id_gen")
+    @SequenceGenerator(name = "person_seq", sequenceName = "person_sequence", allocationSize = 1)
     private Integer id;
 
     @Column(name = "name")
@@ -37,5 +37,15 @@ public class Person extends AbstractEntity {
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Bills> bills;
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
 }

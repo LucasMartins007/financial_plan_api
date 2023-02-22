@@ -14,11 +14,11 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "bills")
-public class Bills extends AbstractEntity {
+public class Bills extends AbstractEntity<Integer> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @SequenceGenerator(name = "billsSeq", sequenceName = "bills_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "bills_id_gen")
+    @SequenceGenerator(name = "bills_seq", sequenceName = "bills_sequence", allocationSize = 1)
     private Integer id;
 
     @Column(name = "description")
@@ -53,4 +53,17 @@ public class Bills extends AbstractEntity {
     @Column(name = "is_payed")
     private boolean isPayed;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "person_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_bills_to_person"))
+    private Person person;
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
