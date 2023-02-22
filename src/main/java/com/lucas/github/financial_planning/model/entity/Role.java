@@ -1,10 +1,12 @@
-package com.lucas.github.financial_planning.model;
+package com.lucas.github.financial_planning.model.entity;
 
+import com.lucas.github.financial_planning.model.entity.generic.AbstractEntity;
 import com.lucas.github.financial_planning.model.enums.EnumRole;
-import com.lucas.github.financial_planning.model.generic.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,9 +22,8 @@ public class Role extends AbstractEntity<Integer> {
     @Column(name = "role")
     private EnumRole roleDescription;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_to_users"))
-    private User user;
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<User> users;
 
     @Override
     public boolean equals(Object obj) {

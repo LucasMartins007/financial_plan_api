@@ -1,5 +1,6 @@
-package com.lucas.github.financial_planning.model.generic;
+package com.lucas.github.financial_planning.model.entity.generic;
 
+import com.lucas.github.financial_planning.model.pattern.IIdentifier;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +9,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public abstract class AbstractEntity<T extends Number> implements IIdentifier<T>{
+public abstract class AbstractEntity<T extends Number> implements IIdentifier<T> {
 
     @Column(name = "include_date")
     @Temporal(TemporalType.DATE)

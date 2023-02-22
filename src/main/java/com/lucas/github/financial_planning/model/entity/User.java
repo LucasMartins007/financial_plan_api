@@ -1,6 +1,6 @@
-package com.lucas.github.financial_planning.model;
+package com.lucas.github.financial_planning.model.entity;
 
-import com.lucas.github.financial_planning.model.generic.AbstractEntity;
+import com.lucas.github.financial_planning.model.entity.generic.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +23,7 @@ public class User extends AbstractEntity<Integer> {
     @Column(name = "password")
     private String password;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_users_to_role"))
     private Role role;
 
