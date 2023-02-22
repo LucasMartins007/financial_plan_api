@@ -1,7 +1,6 @@
 package com.lucas.github.financial_planning.model.generic;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -53,7 +52,7 @@ public abstract class AbstractEntity<T extends Number> implements IIdentifier<T>
             return false;
         }
 
-        @SuppressWarnings("unchecked") 
+        @SuppressWarnings("unchecked")
         final AbstractEntity<T> other = (AbstractEntity<T>) obj;
         if (this.getId() != null && other.getId() == null) {
             return false;
