@@ -98,8 +98,7 @@ CREATE TABLE role (
     role INTEGER NOT NULL,
     include_date DATE NOT NULL,
     update_date DATE NOT NULL,
-    active BOOLEAN NOT NULL,
-    user_id INTEGER NOT NULL
+    active BOOLEAN NOT NULL
 );
 
 CREATE SEQUENCE role_seq INCREMENT 1 START 1 OWNED BY role.id;
@@ -118,14 +117,8 @@ CREATE TABLE users (
 
 CREATE SEQUENCE users_seq INCREMENT 1 START 1 OWNED BY users.id;
 
--------------------------------------------------------------------------------------------------------------------
-
 ALTER TABLE users
     ADD CONSTRAINT fk_users_to_role
     FOREIGN KEY(role_id) REFERENCES role(id);
-
-ALTER TABLE role
-    ADD CONSTRAINT fk_role_to_users
-    FOREIGN KEY(user_id) REFERENCES users(id);
 
 -------------------------------------------------------------------------------------------------------------------
