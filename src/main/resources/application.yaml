@@ -8,7 +8,8 @@ api:
                    /configuration/security, 
                    /webjars/**, 
                    /actuator/**, 
-                   /login
+                   /login,
+                   /teste
 
 spring:
   profiles:

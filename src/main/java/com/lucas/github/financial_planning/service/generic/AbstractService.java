@@ -1,22 +1,36 @@
 package com.lucas.github.financial_planning.service.generic;
 
 import com.lucas.github.financial_planning.model.entity.generic.AbstractEntity;
+import com.lucas.github.financial_planning.utils.ContextUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.support.Repositories;
 
-public abstract class AbstractService<E extends AbstractEntity<?>, I extends Number> {
+import java.lang.reflect.ParameterizedType;
 
-    private Class<E> entityClass;
+public abstract class AbstractService<E extends AbstractEntity<?>, I extends Number>  {
 
-    private Repositories repositories;
+    @Autowired
+    private ApplicationContext applicationContext;
 
-    protected JpaRepository<E, I> getRepository() {
-        return this.getRepository(entityClass);
+    private final Class<E> entityClass;
+
+    @SuppressWarnings("unchecked")
+    protected AbstractService() {
+        ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
+        entityClass = (Class<E>) genericSuperclass.getActualTypeArguments()[0];
+    }
+
+    public <T extends JpaRepository<?, ?>> T getRepository(Class<T> repositoryClass) {
+        return ContextUtils.getBean(repositoryClass);
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends AbstractEntity<?>> JpaRepository<T, I> getRepository(Class<E> domainClass) {
-        return (JpaRepository<T, I>) repositories.getRepositoryFor(domainClass)
-                .orElseThrow(() -> new RuntimeException(""));
+    public JpaRepository<E, I> getRepository() {
+        return ContextUtils.getBean(JpaRepository.class, entityClass);
     }
+
+
+
+
 }
