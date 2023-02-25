@@ -1,7 +1,6 @@
 package com.lucas.github.financial_planning.config.security;
 
 import com.lucas.github.financial_planning.config.security.provider.AuthenticationProvider;
-import com.lucas.github.financial_planning.utils.ListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +29,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests()
-                .requestMatchers(ListUtil.toArray(noSecuredUrl))
+                .requestMatchers("/")
                 .permitAll()
                 .requestMatchers(basePath)
                 .authenticated()
