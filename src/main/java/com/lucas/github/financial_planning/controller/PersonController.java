@@ -1,22 +1,27 @@
 package com.lucas.github.financial_planning.controller;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.lucas.github.financial_planning.service.PersonService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(value = "/teste")
 public class PersonController {
 
-    private final PersonService personService;
+    private PersonService personService;
 
     @GetMapping
     public String getAll() {
         return personService.teste();
     }
 
+    @PostMapping
+    public String get(@Valid @RequestBody Test teste) {
+
+        return "ok";
+    }
+
 }
+
+
