@@ -16,6 +16,8 @@ public class UserDTO extends AbstractDTO<Integer> {
 
     private String password;
 
+    private String token;
+
     private RoleDTO role;
 
     @Override
