@@ -11,7 +11,7 @@ public enum EnumMessagesException {
 
     MISSING_FIELDS_EXCEPTION(400, ""),
 
-    ;
+    INVALID_USERNAME_OR_PASSWORD(400, "Nome de usuário ou senha inválidos, tente novamente.");
 
     private final Integer statusCode;
     private final String message;
