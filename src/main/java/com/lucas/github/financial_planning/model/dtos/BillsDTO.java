@@ -3,9 +3,7 @@ package com.lucas.github.financial_planning.model.dtos;
 import com.lucas.github.financial_planning.model.dtos.generic.AbstractDTO;
 import com.lucas.github.financial_planning.model.entity.Installment;
 import com.lucas.github.financial_planning.model.enums.EnumCategory;
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,6 +11,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode(callSuper = true)
 public class BillsDTO extends AbstractDTO<Integer> {
 
     private Integer id;
@@ -36,15 +36,5 @@ public class BillsDTO extends AbstractDTO<Integer> {
     private EnumCategory category;
 
     private boolean isPayed;
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 
 }

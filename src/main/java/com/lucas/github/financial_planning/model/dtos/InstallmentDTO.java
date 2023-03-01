@@ -1,18 +1,15 @@
 package com.lucas.github.financial_planning.model.dtos;
 
 import com.lucas.github.financial_planning.model.dtos.generic.AbstractDTO;
-import com.lucas.github.financial_planning.model.entity.Bills;
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode(callSuper = true)
 public class InstallmentDTO extends AbstractDTO<Integer> {
 
     private Integer id;
@@ -22,15 +19,5 @@ public class InstallmentDTO extends AbstractDTO<Integer> {
     private Date paymentDate;
 
     private boolean isPayed;
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 
 }

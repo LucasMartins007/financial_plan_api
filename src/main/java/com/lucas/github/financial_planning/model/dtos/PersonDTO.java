@@ -2,14 +2,15 @@ package com.lucas.github.financial_planning.model.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lucas.github.financial_planning.model.dtos.generic.AbstractDTO;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
 @Setter
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode(callSuper = true)
 public class PersonDTO extends AbstractDTO<Integer> {
 
     private Integer id;
@@ -26,16 +27,5 @@ public class PersonDTO extends AbstractDTO<Integer> {
     private List<PhoneDTO> phone;
 
     private List<BillsDTO> bills;
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
 
 }

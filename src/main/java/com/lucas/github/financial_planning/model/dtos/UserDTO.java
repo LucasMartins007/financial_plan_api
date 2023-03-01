@@ -1,13 +1,12 @@
 package com.lucas.github.financial_planning.model.dtos;
 
 import com.lucas.github.financial_planning.model.dtos.generic.AbstractDTO;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode(callSuper = true)
 public class UserDTO extends AbstractDTO<Integer> {
 
     private Integer id;
@@ -16,18 +15,6 @@ public class UserDTO extends AbstractDTO<Integer> {
 
     private String password;
 
-    private String token;
-
     private RoleDTO role;
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 
 }
