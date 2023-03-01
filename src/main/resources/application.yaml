@@ -14,6 +14,15 @@ api:
 spring:
   profiles:
     active: develop
+  secret_key: beb6e8666bb8e17a446446d5ac1d7015
+              d4a61c7b9b9f871cab72787adbfb9cd8
+              e2bba1bb3e88de0929c0be5627125d98
+              e85798c846ad10c59763cd752da47e8b
+              cc9ab2a15b4f1e8e0b236dac19d5a696
+  expiration_time:
+    token: 15 * 60 * 1000
+    refresh_token: 30 * 60 * 1000
+
 
   application:
     name: financial_planning_api
