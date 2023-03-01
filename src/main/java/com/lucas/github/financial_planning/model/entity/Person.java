@@ -38,6 +38,10 @@ public class Person extends AbstractEntity<Integer> {
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Bills> bills;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_person_to_user"))
+    private User user;
+
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
