@@ -18,12 +18,6 @@ public class TokenServiceImpl implements TokenService {
     @Value("${spring.secret_key}")
     private String secretKey;
 
-    @Value("${spring.expiration_time.token}")
-    private Integer tokenExpirationTime;
-
-    @Value("${spring.expiration_time.refresh_token}")
-    private Integer refreshTokenExpirationTime;
-
     @Override
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
@@ -37,7 +31,9 @@ public class TokenServiceImpl implements TokenService {
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subject, boolean isRefreshToken) {
-        final Integer expirationTime = isRefreshToken ? refreshTokenExpirationTime : tokenExpirationTime;
+        final int tokenExpirationTime = 15 * 60 * 1000;
+        final int refreshTokenExpirationTime = 15 * 60 * 1000;
+        final int expirationTime = isRefreshToken ? refreshTokenExpirationTime : tokenExpirationTime;
 
         return Jwts.builder()
                 .setClaims(claims)

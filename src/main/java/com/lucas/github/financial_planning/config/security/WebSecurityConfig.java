@@ -21,10 +21,10 @@ public class WebSecurityConfig {
     @Autowired
     public PasswordEncoder passwordEncoder;
 
-    @Value("${api.no-secured-urls}")
+    @Value("${spring.api.no-secured-urls}")
     private List<String> noSecuredUrl;
 
-    @Value("${api.base-path}")
+    @Value("${spring.api.base-path}")
     private String basePath;
 
     @Bean

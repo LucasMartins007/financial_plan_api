@@ -45,5 +45,5 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(exceptionResponse);
     }
-    
+
 }

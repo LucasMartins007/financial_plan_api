@@ -24,7 +24,7 @@ import java.util.List;
 @EnableScheduling
 public class WebConfig extends WebMvcConfigurationSupport {
 
-    @Value("${api.no-secured-urls}")
+    @Value("${spring.api.no-secured-urls}")
     private List<String> noSecuredUrl;
 
     @Override

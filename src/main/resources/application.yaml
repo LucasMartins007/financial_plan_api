@@ -22,6 +22,17 @@ spring:
   expiration_time:
     token: 15 * 60 * 1000
     refresh_token: 30 * 60 * 1000
+  api:
+    base-path: /financial_planning/v1
+    no-secured-urls: /v3/api-docs,
+      /configuration/ui,
+      /swagger-resources/**,
+      /swagger-ui/**,
+      /configuration/security,
+      /webjars/**,
+      /actuator/**,
+      /login,
+      /teste
 
 
   application:
@@ -51,10 +62,10 @@ spring:
     password: admin
 
   flyway:
-    user: lucas
-    password: admin
+#    user: lucas
+#    password: admin
     schemas: public
-    flyway.url: jdbc:postgresql://localhost:5432/financial_planning
+#    flyway.url: jdbc:postgresql://localhost:5432/financial_planning
     locations: "classpath:/db/migration"
     enabled: true
     validate-on-migrate: true
@@ -62,4 +73,4 @@ spring:
 server:
   port: 8081
   servlet:
-    context-path: ${api.base-path}
+    context-path: ${spring.api.base-path}
