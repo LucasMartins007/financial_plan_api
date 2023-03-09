@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.lang.reflect.ParameterizedType;
 
-public abstract class AbstractService<E extends AbstractEntity<?>, I extends Number>  {
+public abstract class AbstractService<E extends AbstractEntity<?>, I extends Number> implements IAbstractService {
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -21,10 +21,12 @@ public abstract class AbstractService<E extends AbstractEntity<?>, I extends Num
         entityClass = (Class<E>) genericSuperclass.getActualTypeArguments()[0];
     }
 
+    @Override
     public <T extends JpaRepository<?, ?>> T getRepository(Class<T> repositoryClass) {
         return ContextUtils.getBean(repositoryClass);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public JpaRepository<E, I> getRepository() {
         return ContextUtils.getBean(JpaRepository.class, entityClass);

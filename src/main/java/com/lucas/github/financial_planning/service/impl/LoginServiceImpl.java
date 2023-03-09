@@ -27,7 +27,7 @@ public class LoginServiceImpl extends AbstractService<User, Integer> implements 
     public AuthDTO authenticate(UserDTO userDTO) {
         final User user = getRepository(UserRepository.class).findByUsername(userDTO.getUsername())
                 .orElseThrow(() -> new DomainRuntimeException(EnumMessagesException.INVALID_USERNAME_OR_PASSWORD));
-        if (!passwordEncoder.matches(userDTO.getPassword(), user.getPassword())){
+        if (!passwordEncoder.matches(userDTO.getPassword(), user.getPassword())) {
             throw new DomainRuntimeException(EnumMessagesException.INVALID_USERNAME_OR_PASSWORD);
         }
         final Integer personId = getRepository(PersonRepository.class).findIdByUser(user);
