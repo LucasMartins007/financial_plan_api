@@ -29,24 +29,30 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(auth -> auth.requestMatchers(ListUtil.toArray(noSecuredUrl))
-                        .permitAll()
-                        .requestMatchers(basePath)
-                        .authenticated()
-                ).requiresChannel()
-                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-                .requiresSecure()
-                .and()
-                .formLogin()
-                .disable()
-                .httpBasic()
-                .disable()
-                .csrf()
-                .disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+        return http
+                .authorizeHttpRequests(auth
+                        -> auth
+                        .requestMatchers(ListUtil.toArray(noSecuredUrl))
+                        .permitAll())
                 .build();
+//        return http.authorizeHttpRequests(auth -> auth.requestMatchers(ListUtil.toArray(noSecuredUrl))
+//                        .permitAll()
+////                        .requestMatchers(basePath)
+////                        .authenticated()
+//                ).requiresChannel()
+//                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+//                .requiresSecure()
+//                .and()
+//                .formLogin()
+//                .disable()
+//                .httpBasic()
+//                .disable()
+//                .csrf()
+//                .disable()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .build();
     }
 
     @Autowired

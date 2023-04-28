@@ -7,11 +7,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum EnumMessagesException {
 
-    NULLPOINTER_EXCEPTION(500,"Ocorreu um erro nos nossos servidores, por favor, entre em contato"),
+    NULLPOINTER_EXCEPTION(500,"An error has ocurred, please try again in a few seconds."),
 
     MISSING_FIELDS_EXCEPTION(400, ""),
 
-    INVALID_USERNAME_OR_PASSWORD(400, "Nome de usuário ou senha inválidos, tente novamente.");
+    INVALID_USERNAME_OR_PASSWORD(400, "Invalid username."),
+
+    MISSING_TOKEN(403, "Missing Token."),
+
+    INVALID_TOKEN(403, "Invalid Token."),
+
+    USER_NOT_FOUND(404, "User not found.");
 
     private final Integer statusCode;
     private final String message;

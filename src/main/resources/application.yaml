@@ -1,16 +1,4 @@
 
-api:
-  base-path: /financial_planning/v1
-  no-secured-urls: /v3/api-docs, 
-                   /configuration/ui, 
-                   /swagger-resources/**, 
-                   /swagger-ui/**, 
-                   /configuration/security, 
-                   /webjars/**, 
-                   /actuator/**, 
-                   /login,
-                   /teste
-
 spring:
   profiles:
     active: develop
@@ -32,7 +20,7 @@ spring:
       /webjars/**,
       /actuator/**,
       /login,
-      /teste
+      /person/register
 
 
   application:

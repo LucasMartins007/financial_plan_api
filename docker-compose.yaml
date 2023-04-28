@@ -1,0 +1,10 @@
+services:
+  financial_plan_api:
+    depends_on:
+      - financial_planning_bd
+  financial_planning_bd:
+    image: postgres
+    environment:
+      POSTGRES_DB: financial_planning
+      POSTGRES_USER: lucas
+      POSTGRES_PASSWORD: admin
