@@ -6,8 +6,7 @@ import com.lucas.github.financial_planning.model.pattern.Constants;
 import com.lucas.github.financial_planning.service.JWTUserDetailsService;
 import com.lucas.github.financial_planning.utils.TokenUtils;
 import com.lucas.github.financial_planning.utils.Utils;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 public class InterceptorHandler implements HandlerInterceptor {

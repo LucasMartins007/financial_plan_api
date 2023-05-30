@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.util.List;
 
@@ -34,9 +35,9 @@ public class WebSecurityConfig {
         return http
                 .authorizeHttpRequests(auth
                         -> auth
-                        .requestMatchers(ListUtil.toArray(noSecuredUrl))
+                        .antMatchers(ListUtil.toArray(noSecuredUrl))
                         .permitAll()
-                        .requestMatchers(basePath)
+                        .antMatchers(basePath)
                         .authenticated())
                 .requiresChannel()
                 .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)

@@ -45,7 +45,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/financial_planning
+    url: jdbc:postgresql://localhost:5432/financial_plan
     username: lucas
     password: admin
 
