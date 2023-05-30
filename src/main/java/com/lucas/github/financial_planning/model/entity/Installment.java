@@ -1,7 +1,7 @@
 package com.lucas.github.financial_planning.model.entity;
 
 import com.lucas.github.financial_planning.model.entity.generic.AbstractEntity;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,5 +1,6 @@
 package com.lucas.github.financial_planning.config.security;
 
+import com.lucas.github.financial_planning.config.security.interceptor.InterceptorHandler;
 import com.lucas.github.financial_planning.config.security.provider.AuthenticationProvider;
 import com.lucas.github.financial_planning.utils.ListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class WebSecurityConfig {
     @Value("${spring.api.no-secured-urls}")
     private List<String> noSecuredUrl;
 
-    @Value("${spring.api.base-path}")
+    @Value("${spring.api.base-path}/**")
     private String basePath;
 
     @Bean
@@ -33,26 +35,23 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth
                         -> auth
                         .requestMatchers(ListUtil.toArray(noSecuredUrl))
-                        .permitAll())
+                        .permitAll()
+                        .requestMatchers(basePath)
+                        .authenticated())
+                .requiresChannel()
+                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+                .requiresSecure()
+                .and()
+                .formLogin()
+                .disable()
+                .csrf()
+                .disable()
+                .httpBasic()
+                .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .build();
-//        return http.authorizeHttpRequests(auth -> auth.requestMatchers(ListUtil.toArray(noSecuredUrl))
-//                        .permitAll()
-////                        .requestMatchers(basePath)
-////                        .authenticated()
-//                ).requiresChannel()
-//                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-//                .requiresSecure()
-//                .and()
-//                .formLogin()
-//                .disable()
-//                .httpBasic()
-//                .disable()
-//                .csrf()
-//                .disable()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .build();
     }
 
     @Autowired

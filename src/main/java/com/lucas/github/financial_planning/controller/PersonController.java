@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/person")
 public class PersonController extends AbstractController<PersonService> {
 
-    @GetMapping
+    @GetMapping(value = "/register")
     public String registerPerson() {
         return "teste";
     }
