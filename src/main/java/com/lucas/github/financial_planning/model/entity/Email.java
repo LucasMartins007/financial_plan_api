@@ -19,7 +19,7 @@ public class Email extends AbstractEntity<Integer> {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "isMainEmail")
+    @Column(name = "is_main_email")
     private boolean isMainEmail;
 
     @ManyToOne(fetch = FetchType.LAZY)

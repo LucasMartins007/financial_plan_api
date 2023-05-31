@@ -1,7 +1,8 @@
 package com.lucas.github.financial_planning.controller;
 
+import com.lucas.github.financial_planning.model.dtos.PersonDTO;
 import com.lucas.github.financial_planning.service.PersonService;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,8 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/person")
 public class PersonController extends AbstractController<PersonService> {
 
-    @GetMapping(value = "/register")
-    public String registerPerson() {
+
+    @PostMapping(value = "/register")
+    public String registerPerson(PersonDTO personDTO) {
+
         return "teste";
     }
 

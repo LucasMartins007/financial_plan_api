@@ -5,8 +5,12 @@ import com.lucas.github.financial_planning.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Integer> {
 
     Integer findIdByUser(User user);
+
+    Optional<Person> findByCpfCnpj(String cpfCnpj);
 }

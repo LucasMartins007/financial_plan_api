@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,17 +22,14 @@ public class Person extends AbstractEntity<Integer> {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "age")
-    private Integer age;
-
-    @Column(name = "birth_date")
-    private Date birthDate;
+    @Column(name = "cpf_cnpj")
+    private String cpfCnpj;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Email> email;
+    private List<Email> emails;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Phone> phone;
+    private List<Phone> phones;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Bills> bills;
