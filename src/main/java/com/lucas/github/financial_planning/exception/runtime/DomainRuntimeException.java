@@ -27,6 +27,11 @@ public class DomainRuntimeException extends RuntimeException {
         this(MessageExceptionFormatter.getMessage(message, arguments));
     }
 
+    public DomainRuntimeException(EnumMessagesException enumMessagesException, Object... arguments) {
+        this(MessageExceptionFormatter.getMessage(enumMessagesException.getMessage(), arguments));
+    }
+
+
 
 
 

@@ -15,6 +15,10 @@ public class StringUtil extends StringUtils {
         return value == null || value.equals("")  || value.trim().isEmpty() || value.equalsIgnoreCase("null");
     }
 
+    public static boolean isNullOrEmpty(Object value) {
+        return value == null || value.toString().trim().isEmpty();
+    }
+
     /**
      * @param value String that will be verified
      * @return if the string valur is not null or empty
