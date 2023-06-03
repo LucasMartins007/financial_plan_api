@@ -1,8 +1,7 @@
 CREATE TABLE person (
     id INTEGER NOT NULL PRIMARY KEY,
     name VARCHAR NOT NULL,
-    age INTEGER NOT NULL,
-    birth_date DATE NOT NULL,
+    cpf_cnpj VARCHAR NOT NULL,
     include_date DATE NOT NULL,
     update_date DATE NOT NULL,
     active BOOLEAN NOT NULL
@@ -95,7 +94,7 @@ ALTER TABLE installment
 
 CREATE TABLE role (
     id INTEGER NOT NULL PRIMARY KEY,
-    role INTEGER NOT NULL,
+    role VARCHAR NOT NULL,
     include_date DATE NOT NULL,
     update_date DATE NOT NULL,
     active BOOLEAN NOT NULL

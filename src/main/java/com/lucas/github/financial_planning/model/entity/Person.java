@@ -2,16 +2,19 @@ package com.lucas.github.financial_planning.model.entity;
 
 
 import com.lucas.github.financial_planning.model.entity.generic.AbstractEntity;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "person")
+@EqualsAndHashCode(callSuper = true)
 public class Person extends AbstractEntity<Integer> {
 
     @Id
@@ -38,14 +41,16 @@ public class Person extends AbstractEntity<Integer> {
     @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_person_to_user"))
     private User user;
 
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
+    @Column(name = "include_date")
+    @Temporal(TemporalType.DATE)
+    private Date includeDate;
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
+    @Column(name = "update_date")
+    @Temporal(TemporalType.DATE)
+    private Date updateDate;
+
+    @Column(name = "active")
+    private boolean active;
+
 
 }

@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/login")
 @RequiredArgsConstructor
-public class LoginController {
-
-    private final LoginService loginService;
+public class LoginController extends AbstractController<LoginService> {
 
     @PostMapping
-    public ResponseEntity<AuthDTO> authenticate(@RequestBody UserDTO userDTO){
-        final AuthDTO authDTO = loginService.authenticate(userDTO);
+    public ResponseEntity<AuthDTO> authenticate(@RequestBody UserDTO userDTO) {
+        final AuthDTO authDTO = getService().authenticate(userDTO);
 
         return ResponseEntity.ok(authDTO);
     }

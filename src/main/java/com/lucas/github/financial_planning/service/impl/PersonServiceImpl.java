@@ -7,11 +7,15 @@ import com.lucas.github.financial_planning.repository.PersonRepository;
 import com.lucas.github.financial_planning.service.EmailService;
 import com.lucas.github.financial_planning.service.PersonService;
 import com.lucas.github.financial_planning.service.PhoneService;
+import com.lucas.github.financial_planning.service.UserService;
 import com.lucas.github.financial_planning.service.generic.AbstractService;
+import com.lucas.github.financial_planning.utils.DateUtils;
 import com.lucas.github.financial_planning.validators.Validator;
 import com.lucas.github.financial_planning.validators.enums.EnumValidators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -19,27 +23,21 @@ public class PersonServiceImpl extends AbstractService<Person, Integer> implemen
 
     private final PersonRepository personRepository;
 
-    private final EmailService emailService;
-
-    private final PhoneService phoneService;
-
     @Override
     public Person registerNewPerson(Person person) {
         Validator.validate(EnumValidators.PERSON, person);
         validateDuplicatedCpf(person.getCpfCnpj());
+        person.setIncludeDate(new Date());
+        person.setUpdateDate(new Date());
+        person.setActive(true);
 
-        final Person managedPerson = personRepository.save(person);
-        person.getEmails()
-                .forEach(email -> emailService.registerEmailForPerson(email, managedPerson.getId()));
-        person.getPhones()
-                .forEach(phone -> phoneService.registerPhoneForPerson(phone, managedPerson.getId()));
-
-        return managedPerson;
+        getService(UserService.class).registerNewUser(person.getUser());
+        return personRepository.save(person);
     }
 
     private void validateDuplicatedCpf(String cpfCnpj) {
         personRepository.findByCpfCnpj(cpfCnpj).ifPresent((person -> {
-            throw new DomainRuntimeException(EnumMessagesException.MISSING_FIELDS_EXCEPTION, person.getCpfCnpj());
+            throw new DomainRuntimeException(EnumMessagesException.DUPLICATED_CPF_CNPJ, person.getCpfCnpj());
         }));
     }
 }

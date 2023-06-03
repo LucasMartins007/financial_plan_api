@@ -2,10 +2,12 @@ package com.lucas.github.financial_planning.validators;
 
 import com.lucas.github.financial_planning.exception.enums.EnumMessagesException;
 import com.lucas.github.financial_planning.exception.runtime.DomainRuntimeException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.regex.Pattern;
 
-@SuppressWarnings("rawtypes")
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CpfCnpjValidator {
 
     public static void validate(String cpfCnpj) {
@@ -13,12 +15,13 @@ public class CpfCnpjValidator {
     }
 
     private static void isValidCpfCnpj(String cpfCnpj) {
-        cpfCnpj = removeNonNumericCharacters(cpfCnpj);
-        if (validateCpfPattern(cpfCnpj)) {
+        if (cpfCnpj.length() == 11) {
             validateCpf(cpfCnpj);
+            return;
         }
-        if (validateCnpjPattern(cpfCnpj)) {
+        if (cpfCnpj.length() == 14) {
             validateCnpj(cpfCnpj);
+            return;
         }
         throwException(cpfCnpj);
     }
@@ -28,6 +31,7 @@ public class CpfCnpjValidator {
     }
 
     private static void validateCpf(String cpf) {
+        cpf = removeNonNumericCharacters(cpf);
         if (cpf.length() != 11) {
             throwException(cpf);
         }
@@ -69,6 +73,7 @@ public class CpfCnpjValidator {
     }
 
     private static void validateCnpj(String cnpj) {
+        cnpj = removeNonNumericCharacters(cnpj);
         if (cnpj.length() != 14) {
             throwException(cnpj);
         }
@@ -111,16 +116,6 @@ public class CpfCnpjValidator {
 
     private static String removeNonNumericCharacters(String value) {
         return value.replaceAll("\\D", "");
-    }
-
-    private static boolean validateCpfPattern(String cpf) {
-        String pattern = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}";
-        return Pattern.matches(pattern, cpf);
-    }
-
-    private static boolean validateCnpjPattern(String cnpj) {
-        String pattern = "\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}";
-        return Pattern.matches(pattern, cnpj);
     }
 
     private static boolean hasAllSameDigits(int[] digits) {

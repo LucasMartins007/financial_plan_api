@@ -18,8 +18,6 @@ public class PersonValidator implements IValidator<Person, Integer> {
     public void validateRequiredFields(Person person) {
         final RequiredFieldsValidator validator = new RequiredFieldsValidator();
         validator.verifyField(person.getName(), "name");
-        validator.verifyField(person.getEmails(), "email");
-        validator.verifyField(person.getPhones(), "phone");
         validator.verifyField(person.getCpfCnpj(), "cpfCnpj");
 
         validator.validate();

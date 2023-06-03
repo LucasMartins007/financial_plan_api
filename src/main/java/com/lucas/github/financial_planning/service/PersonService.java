@@ -7,4 +7,5 @@ public interface PersonService extends IAbstractService {
 
 
     Person registerNewPerson(Person person);
+
 }

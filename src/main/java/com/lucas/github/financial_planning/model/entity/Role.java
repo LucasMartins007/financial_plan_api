@@ -3,15 +3,19 @@ package com.lucas.github.financial_planning.model.entity;
 import com.lucas.github.financial_planning.model.entity.generic.AbstractEntity;
 import com.lucas.github.financial_planning.model.enums.EnumRole;
 import javax.persistence.*;
+
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "role")
+@EqualsAndHashCode(callSuper = true)
 public class Role extends AbstractEntity<Integer> {
 
     @Id
@@ -20,18 +24,21 @@ public class Role extends AbstractEntity<Integer> {
     private Integer id;
 
     @Column(name = "role")
-    private EnumRole roleDescription;
+    private String roleDescription;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<User> users;
 
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
+    @Column(name = "include_date")
+    @Temporal(TemporalType.DATE)
+    private Date includeDate;
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
+    @Column(name = "update_date")
+    @Temporal(TemporalType.DATE)
+    private Date updateDate;
+
+    @Column(name = "active")
+    private boolean active;
+
+
 }

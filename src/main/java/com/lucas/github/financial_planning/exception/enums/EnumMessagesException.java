@@ -9,6 +9,8 @@ public enum EnumMessagesException {
 
     NULLPOINTER_EXCEPTION(500, "An error has ocurred, please try again in a few seconds."),
 
+    FAILED_TO_CREATE_CLASS_INSTANCE(500, "Failed to create an instance for {0} class, stackTrace: {1}"),
+
     DUPLICATED_EMAIL(400, "The email {0} already exists."),
 
     DUPLICATED_PHONE(400, "The phone {0} already exists."),
@@ -17,14 +19,15 @@ public enum EnumMessagesException {
 
     DUPLICATED_MAIN_PHONE(400, "You cannot have more than one main phone."),
 
+    DUPLICATED_USERNAME(400, "This username already exists, please try other"),
+
+    DUPLICATED_CPF_CNPJ(400, "The cpf/cnpj {0} already exists."),
 
     INVALID_USERNAME_OR_PASSWORD(400, "Invalid username."),
 
     INVALID_CPF_CNPJ(400, "Cpf/cnpj {0} is invalid."),
 
-    DUPLICATED_CPF_CNPJ(400, "This cpf/cnpj already exists."),
-
-    MISSING_FIELDS_EXCEPTION(400, "Os seguintes campos são de preenchimento obrigatório: "),
+    MISSING_FIELDS_EXCEPTION(400, "The field {0} is mandatory."),
 
     MISSING_TOKEN(403, "Missing Token."),
 
@@ -32,7 +35,10 @@ public enum EnumMessagesException {
 
     USER_NOT_FOUND(404, "User not found."),
 
-    ;
+    INVALID_PASSWORD(400, "The password should have at least 6 characters and be alphaNumeric. "),
+
+    ROLE_DOESNT_EXISTS(400, "Role {0} doesn't exists.");
+
     private final Integer statusCode;
     private final String message;
 }

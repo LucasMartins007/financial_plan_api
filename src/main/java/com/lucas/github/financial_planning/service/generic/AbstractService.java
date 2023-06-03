@@ -27,12 +27,15 @@ public abstract class AbstractService<E extends AbstractEntity<?>, I extends Num
     }
 
     @Override
+    public <T extends IAbstractService> T getService(Class<T> serviceClass) {
+        return ContextUtils.getBean(serviceClass);
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public JpaRepository<E, I> getRepository() {
         return ContextUtils.getBean(JpaRepository.class, entityClass);
     }
-
-
 
 
 }

@@ -2,6 +2,7 @@ package com.lucas.github.financial_planning.validators.enums;
 
 import com.lucas.github.financial_planning.model.entity.generic.AbstractEntity;
 import com.lucas.github.financial_planning.validators.PersonValidator;
+import com.lucas.github.financial_planning.validators.UserValidator;
 import com.lucas.github.financial_planning.validators.interfaces.IValidator;
 import com.lucas.github.financial_planning.validators.interfaces.IValidatorFactory;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 public enum EnumValidators {
 
     PERSON(PersonValidator::new),
+    USER(UserValidator::new),
     ;
 
     private final IValidatorFactory iValidatorFactory;

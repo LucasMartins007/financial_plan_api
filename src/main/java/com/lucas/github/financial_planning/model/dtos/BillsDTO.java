@@ -29,7 +29,7 @@ public class BillsDTO extends AbstractDTO<Integer> {
 
     private boolean isSinglePayment;
 
-    private List<Installment> installment;
+    private List<InstallmentDTO> installment;
 
     private Integer numberInstallments;
 
