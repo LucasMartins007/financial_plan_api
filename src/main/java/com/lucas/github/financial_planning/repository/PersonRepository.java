@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Integer> {
 
-    Integer findIdByUser(User user);
+    Person findByUser(User user);
 
     Optional<Person> findByCpfCnpj(String cpfCnpj);
 }

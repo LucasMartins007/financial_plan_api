@@ -37,7 +37,9 @@ public enum EnumMessagesException {
 
     INVALID_PASSWORD(400, "The password should have at least 6 characters and be alphaNumeric. "),
 
-    ROLE_DOESNT_EXISTS(400, "Role {0} doesn't exists.");
+    ROLE_NOT_FOUND(400, "Role {0} doesn't exists."),
+
+    PERSON_NOT_FOUND(400, "The person {0} does not exists.");
 
     private final Integer statusCode;
     private final String message;

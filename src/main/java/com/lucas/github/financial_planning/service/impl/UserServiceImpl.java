@@ -14,6 +14,7 @@ import com.lucas.github.financial_planning.validators.Validator;
 import com.lucas.github.financial_planning.validators.enums.EnumValidators;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -24,10 +25,13 @@ public class UserServiceImpl extends AbstractService<User, Integer> implements U
 
     private final UserRepository userRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     public User registerNewUser(User user) {
         Validator.validate(EnumValidators.USER, user);
         validateDuplicatedUsername(user.getUsername());
+        criptPassword(user);
 
         user.setIncludeDate(new Date());
         user.setUpdateDate(new Date());
@@ -39,12 +43,17 @@ public class UserServiceImpl extends AbstractService<User, Integer> implements U
         return userRepository.save(user);
     }
 
+    private void criptPassword(User user) {
+        final String criptPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(criptPassword);
+    }
+
     private Role getUserRole(Role role) {
         return getService(RoleService.class).findRoleByDescription(role.getRoleDescription());
     }
 
     private void validateDuplicatedUsername(String username) {
-        final User managedUser = userRepository.findByUsername(username);
+        final User managedUser = userRepository.findByUsernameAndActiveTrue(username);
         if (Utils.isNotEmpty(managedUser)) {
             throw new DomainRuntimeException(EnumMessagesException.DUPLICATED_USERNAME, username);
         }
@@ -52,6 +61,6 @@ public class UserServiceImpl extends AbstractService<User, Integer> implements U
 
     @Override
     public User loadUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsernameAndActiveTrue(username);
     }
 }

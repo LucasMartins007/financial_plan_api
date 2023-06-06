@@ -21,7 +21,7 @@ public class UserDetailsServiceImpl implements JWTUserDetailsService, UserDetail
     private UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        final User user = userRepository.findByUsername(username);
+        final User user = userRepository.findByUsernameAndActiveTrue(username);
         if (Utils.isEmpty(user)) {
             throw new DomainRuntimeException(EnumMessagesException.USER_NOT_FOUND);
         }

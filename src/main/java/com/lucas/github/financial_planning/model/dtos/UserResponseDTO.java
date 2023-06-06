@@ -7,13 +7,11 @@ import lombok.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = true)
-public class UserDTO extends AbstractDTO<Integer> {
+public class UserResponseDTO extends AbstractDTO<Integer> {
 
     private Integer id;
 
     private String username;
-
-    private String password;
 
     private RoleDTO role;
 

@@ -8,4 +8,9 @@ public interface PersonService extends IAbstractService {
 
     Person registerNewPerson(Person person);
 
+    Person findPersonById(Integer personId);
+
+    Person updatePerson(Integer personId, Person person);
+
+    void inactivatePerson(Integer personId);
 }
