@@ -1,6 +1,8 @@
 package com.lucas.github.financial_planning.validators.enums;
 
 import com.lucas.github.financial_planning.model.entity.generic.AbstractEntity;
+import com.lucas.github.financial_planning.validators.BillsValidator;
+import com.lucas.github.financial_planning.validators.InstallmentValidator;
 import com.lucas.github.financial_planning.validators.PersonValidator;
 import com.lucas.github.financial_planning.validators.UserValidator;
 import com.lucas.github.financial_planning.validators.interfaces.IValidator;
@@ -14,7 +16,8 @@ public enum EnumValidators {
 
     PERSON(PersonValidator::new),
     USER(UserValidator::new),
-    ;
+    BILLS(BillsValidator::new),
+    INSTALLMENT(InstallmentValidator::new);
 
     private final IValidatorFactory iValidatorFactory;
 

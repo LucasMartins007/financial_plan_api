@@ -5,8 +5,6 @@ import com.lucas.github.financial_planning.exception.runtime.DomainRuntimeExcept
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.regex.Pattern;
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CpfCnpjValidator {
 

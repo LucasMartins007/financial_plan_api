@@ -3,9 +3,10 @@ package com.lucas.github.financial_planning.validators;
 import com.lucas.github.financial_planning.model.entity.Person;
 import com.lucas.github.financial_planning.validators.generics.RequiredFieldsValidator;
 import com.lucas.github.financial_planning.validators.interfaces.IValidator;
-import org.springframework.stereotype.Component;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-@Component
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class PersonValidator implements IValidator<Person, Integer> {
 
     @Override

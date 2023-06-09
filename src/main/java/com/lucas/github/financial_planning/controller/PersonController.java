@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/person")
+@RequestMapping(PersonController.PATH)
 public class PersonController extends AbstractController<PersonService> {
 
+    public static final String PATH = "person";
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
