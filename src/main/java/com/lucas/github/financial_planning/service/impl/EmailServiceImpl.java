@@ -7,6 +7,8 @@ import com.lucas.github.financial_planning.repository.EmailRepository;
 import com.lucas.github.financial_planning.service.EmailService;
 import com.lucas.github.financial_planning.service.generic.AbstractService;
 import com.lucas.github.financial_planning.utils.Utils;
+import com.lucas.github.financial_planning.validators.Validator;
+import com.lucas.github.financial_planning.validators.enums.EnumValidators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ public class EmailServiceImpl extends AbstractService<Email, Integer> implements
 
     @Override
     public Email registerEmailForPerson(Email email, Integer personId) {
+        Validator.validate(EnumValidators.EMAIL, email);
         verifyDuplicatedEmail(email.getDescription());
         verifyMainEmail(email, personId);
 

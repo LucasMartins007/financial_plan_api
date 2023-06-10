@@ -39,7 +39,9 @@ public enum EnumMessagesException {
 
     ROLE_NOT_FOUND(400, "Role {0} doesn't exists."),
 
-    PERSON_NOT_FOUND(400, "The person {0} does not exists.");
+    PERSON_NOT_FOUND(400, "The person {0} does not exists."),
+
+    INVALID_EMAIL(400, "The email {0} is invalid.");
 
     private final Integer statusCode;
     private final String message;
