@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(PersonController.PATH + "{personId}/bills")
+@RequestMapping(PersonController.PATH + BillsController.PATH)
 public class BillsController extends AbstractController<BillsService> {
+
+    public static final String PATH =  "{personId}/bills";
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

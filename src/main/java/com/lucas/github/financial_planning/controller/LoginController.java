@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/login")
+@RequestMapping(LoginController.PATH)
 @RequiredArgsConstructor
 public class LoginController extends AbstractController<LoginService> {
+
+    public static final String PATH = "login";
 
     @PostMapping
     public ResponseEntity<AuthDTO> authenticate(@RequestBody UserDTO userDTO) {

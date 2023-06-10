@@ -8,7 +8,6 @@ import com.lucas.github.financial_planning.service.InstallmentService;
 import com.lucas.github.financial_planning.service.PersonService;
 import com.lucas.github.financial_planning.service.generic.AbstractService;
 import com.lucas.github.financial_planning.utils.ListUtil;
-import com.lucas.github.financial_planning.utils.Utils;
 import com.lucas.github.financial_planning.validators.Validator;
 import com.lucas.github.financial_planning.validators.enums.EnumValidators;
 import lombok.RequiredArgsConstructor;

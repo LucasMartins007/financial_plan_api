@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(PersonController.PATH)
 public class PersonController extends AbstractController<PersonService> {
 
-    public static final String PATH = "person";
+    public static final String PATH = "person/";
 
-    @PostMapping("/register")
+    @PostMapping("register")
     @ResponseStatus(HttpStatus.CREATED)
     public PersonResponseDTO registerPerson(@RequestBody PersonDTO personDTO) {
         final Person person = convertDTOToEntity(personDTO, Person.class);
@@ -25,13 +25,13 @@ public class PersonController extends AbstractController<PersonService> {
         return convertEntityToDTO(managedPerson, PersonResponseDTO.class);
     }
 
-    @GetMapping("/{personId}")
+    @GetMapping("{personId}")
     @ResponseStatus(HttpStatus.OK)
     public PersonResponseDTO getPersonById(@PathVariable("personId") Integer personId) {
         return convertEntityToDTO(getService().findPersonById(personId), PersonResponseDTO.class);
     }
 
-    @PutMapping("/{personId}")
+    @PutMapping("{personId}")
     @ResponseStatus(HttpStatus.OK)
     public PersonResponseDTO updatePerson(@PathVariable("personId") Integer personId, @RequestBody PersonResponseDTO personResponseDTO) {
         final Person person = convertDTOToEntity(personResponseDTO, Person.class);
@@ -39,7 +39,7 @@ public class PersonController extends AbstractController<PersonService> {
         return convertEntityToDTO(getService().updatePerson(personId, person), PersonResponseDTO.class);
     }
 
-    @DeleteMapping("/{personId}")
+    @DeleteMapping("{personId}")
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public void inactivatePerson(@PathVariable("personId") Integer personId) {
         getService().inactivatePerson(personId);
