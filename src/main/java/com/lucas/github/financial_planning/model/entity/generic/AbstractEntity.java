@@ -9,4 +9,9 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 public abstract class AbstractEntity<T extends Number> extends AbstractModelClass<T> {
+
+    public boolean hasId() {
+        return this.getId() != null;
+    }
+
 }

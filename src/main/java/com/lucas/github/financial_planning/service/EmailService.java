@@ -12,4 +12,6 @@ public interface EmailService extends IAbstractService {
      * @return a saved Email with Id.
      */
     Email registerEmailForPerson(Email email, Integer personId);
+
+    void updateEmail(Integer personId, Integer emailId, Email email);
 }

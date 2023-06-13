@@ -41,8 +41,11 @@ public enum EnumMessagesException {
 
     PERSON_NOT_FOUND(400, "The person {0} does not exists."),
 
-    INVALID_EMAIL(400, "The email {0} is invalid.");
+    INVALID_EMAIL(400, "The email {0} is invalid."),
+
+    EMAIL_NOT_FOUND(400, "The email {0} does not exist.");
 
     private final Integer statusCode;
+
     private final String message;
 }

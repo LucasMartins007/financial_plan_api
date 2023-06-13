@@ -16,9 +16,15 @@ public class EmailController extends AbstractController<EmailService> {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public final EmailDTO registerNewEmail(@PathVariable("{personId}") Integer personId, @RequestBody EmailDTO emailDTO) {
+    public EmailDTO registerNewEmail(@PathVariable("{personId}") Integer personId, @RequestBody EmailDTO emailDTO) {
         final Email email = getService().registerEmailForPerson(convertDTOToEntity(emailDTO, Email.class), personId);
 
         return convertEntityToDTO(email, EmailDTO.class);
+    }
+
+    @PutMapping("/{emailId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateEmail(@PathVariable("{personId}") Integer personId, @PathVariable("{emailId}") Integer emailId, @RequestBody EmailDTO emailDTO) {
+        getService().updateEmail(personId, emailId, convertDTOToEntity(emailDTO, Email.class));
     }
 }
