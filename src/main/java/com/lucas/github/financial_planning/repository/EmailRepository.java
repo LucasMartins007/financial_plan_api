@@ -1,6 +1,7 @@
 package com.lucas.github.financial_planning.repository;
 
 import com.lucas.github.financial_planning.model.entity.Email;
+import com.lucas.github.financial_planning.model.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +13,9 @@ import java.util.Optional;
 public interface EmailRepository extends JpaRepository<Email, Integer> {
 
     Optional<Email> findByDescription(String description);
+
+
+    Optional<Email> findByIdAndPerson(Integer emailId, Person person);
 
     @Query(" select e from Email e " +
             "   where e.person.id = :personId " +

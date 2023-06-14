@@ -65,6 +65,14 @@ public class EmailServiceImpl extends AbstractService<Email, Integer> implements
         getRepository().save(email);
     }
 
+    @Override
+    public Email findEmailByPersonAndId(Integer personId, Integer emailId) {
+        final Person person = getService(PersonService.class).findPersonById(personId);
+
+        return emailRepository.findByIdAndPerson(emailId, person)
+                .orElseThrow(() -> new DomainRuntimeException(EnumMessagesException.EMAIL_NOT_FOUND, emailId));
+    }
+
     public Email findById(Integer emailId) {
         return getRepository().findById(emailId)
                 .orElseThrow(() -> new DomainRuntimeException(EnumMessagesException.EMAIL_NOT_FOUND, emailId));

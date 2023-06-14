@@ -26,4 +26,11 @@ public interface EmailService extends IAbstractService {
      */
     void inactivateEmail(Integer personId, Integer emailId);
 
+    /**
+     *
+     * @param personId id from the person who own the email
+     * @param emailId id of the email
+     * @return Email founded
+     */
+    Email findEmailByPersonAndId(Integer personId, Integer emailId);
 }

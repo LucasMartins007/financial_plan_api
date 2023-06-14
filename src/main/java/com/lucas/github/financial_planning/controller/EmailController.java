@@ -33,4 +33,15 @@ public class EmailController extends AbstractController<EmailService> {
     public void inactivateEmail(@PathVariable("{personId}") Integer personId, @PathVariable("{emailId}") Integer emailId) {
         getService().inactivateEmail(personId, emailId);
     }
+
+    @GetMapping("/{emailId}")
+    @ResponseStatus(HttpStatus.OK)
+    public EmailDTO getEmailById(@PathVariable("{personId}") Integer personId, @PathVariable("{emailId}") Integer emailId) {
+        final Email email = getService().findEmailByPersonAndId(personId, emailId);
+
+        return convertEntityToDTO(email, EmailDTO.class);
+    }
+
+
+
 }
