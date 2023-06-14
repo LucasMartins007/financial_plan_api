@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,4 +22,6 @@ public interface EmailRepository extends JpaRepository<Email, Integer> {
             "   where e.person.id = :personId " +
             "   and e.isMainEmail is true ")
     Email findMainEmailByPersonId(@Param("personId") Integer personId);
+
+    List<Email> findAllByPerson(Person person);
 }

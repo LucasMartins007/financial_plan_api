@@ -3,6 +3,7 @@ package com.lucas.github.financial_planning.service;
 import com.lucas.github.financial_planning.model.entity.Email;
 import com.lucas.github.financial_planning.service.generic.IAbstractService;
 
+import java.util.List;
 
 
 public interface EmailService extends IAbstractService {
@@ -33,4 +34,11 @@ public interface EmailService extends IAbstractService {
      * @return Email founded
      */
     Email findEmailByPersonAndId(Integer personId, Integer emailId);
+
+    /**
+     *
+     * @param personId
+     * @return
+     */
+    List<Email> findAllEmailByPerson(Integer personId);
 }

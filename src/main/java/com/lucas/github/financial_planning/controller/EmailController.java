@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(PersonController.PATH + EmailController.PATH)
 @RequiredArgsConstructor
@@ -42,6 +44,14 @@ public class EmailController extends AbstractController<EmailService> {
         return convertEntityToDTO(email, EmailDTO.class);
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<EmailDTO> getEmailById(@PathVariable("{personId}") Integer personId) {
+        final List<Email> emails = getService().findAllEmailByPerson(personId);
+
+        return convertEntityToDTO(emails, EmailDTO.class);
+
+    }
 
 
 }

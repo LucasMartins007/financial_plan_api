@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -71,6 +72,13 @@ public class EmailServiceImpl extends AbstractService<Email, Integer> implements
 
         return emailRepository.findByIdAndPerson(emailId, person)
                 .orElseThrow(() -> new DomainRuntimeException(EnumMessagesException.EMAIL_NOT_FOUND, emailId));
+    }
+
+    @Override
+    public List<Email> findAllEmailByPerson(Integer personId) {
+        final Person person = getService(PersonService.class).findPersonById(personId);
+
+        return emailRepository.findAllByPerson(person);
     }
 
     public Email findById(Integer emailId) {
