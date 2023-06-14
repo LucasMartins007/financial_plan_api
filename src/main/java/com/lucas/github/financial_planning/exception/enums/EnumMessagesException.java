@@ -43,7 +43,11 @@ public enum EnumMessagesException {
 
     INVALID_EMAIL(400, "The email {0} is invalid."),
 
-    EMAIL_NOT_FOUND(400, "The email {0} does not exist.");
+    EMAIL_NOT_FOUND(400, "The email {0} does not exist."),
+
+    MAIN_EMAIL_CANNOT_BE_DELETED(400, "Main email {0} cannot be deleted, try chossing another email as your main."),
+
+    EMAIL_NOT_FROM_PERSON(400, "Email {0} is not owned by person {1}.");
 
     private final Integer statusCode;
 

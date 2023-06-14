@@ -49,6 +49,22 @@ public class EmailServiceImpl extends AbstractService<Email, Integer> implements
         emailRepository.save(email);
     }
 
+    @Override
+    public void inactivateEmail(Integer personId, Integer emailId) {
+        final Email email = findById(emailId);
+        if (email.isMainEmail()) {
+            throw new DomainRuntimeException(EnumMessagesException.MAIN_EMAIL_CANNOT_BE_DELETED, email.getDescription());
+        }
+        final Person person = getService(PersonService.class).findPersonById(personId);
+        if (!email.getPerson().equals(person)) {
+            throw new DomainRuntimeException(EnumMessagesException.EMAIL_NOT_FROM_PERSON, email.getDescription(), person.getId());
+        }
+
+        email.setActive(false);
+        email.setUpdateDate(new Date());
+        getRepository().save(email);
+    }
+
     public Email findById(Integer emailId) {
         return getRepository().findById(emailId)
                 .orElseThrow(() -> new DomainRuntimeException(EnumMessagesException.EMAIL_NOT_FOUND, emailId));

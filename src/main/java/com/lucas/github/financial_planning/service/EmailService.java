@@ -13,5 +13,17 @@ public interface EmailService extends IAbstractService {
      */
     Email registerEmailForPerson(Email email, Integer personId);
 
+    /**
+     * @param personId id from the person who own the email
+     * @param emailId id of the email
+     * @param email to be updated.
+     */
     void updateEmail(Integer personId, Integer emailId, Email email);
+
+    /**
+     * @param personId id from the person who own the email
+     * @param emailId id of the email
+     */
+    void inactivateEmail(Integer personId, Integer emailId);
+
 }

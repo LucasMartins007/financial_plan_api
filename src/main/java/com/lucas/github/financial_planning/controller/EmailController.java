@@ -27,4 +27,10 @@ public class EmailController extends AbstractController<EmailService> {
     public void updateEmail(@PathVariable("{personId}") Integer personId, @PathVariable("{emailId}") Integer emailId, @RequestBody EmailDTO emailDTO) {
         getService().updateEmail(personId, emailId, convertDTOToEntity(emailDTO, Email.class));
     }
+
+    @DeleteMapping("/{emailId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void inactivateEmail(@PathVariable("{personId}") Integer personId, @PathVariable("{emailId}") Integer emailId) {
+        getService().inactivateEmail(personId, emailId);
+    }
 }
