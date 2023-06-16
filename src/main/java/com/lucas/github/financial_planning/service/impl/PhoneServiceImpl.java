@@ -10,19 +10,30 @@ import com.lucas.github.financial_planning.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PhoneServiceImpl extends AbstractService<Phone, Integer> implements PhoneService {
 
     private final PhoneRepository phoneRepository;
 
-
     @Override
     public Phone registerPhoneForPerson(Phone phone, Integer personId) {
         verifyDuplicatedPhone(phone.getPhoneNumber());
         verifyMainPhone(phone, personId);
 
+        phone.setIncludeDate(new Date());
+        phone.setUpdateDate(new Date());
+        phone.setActive(true);
+
         return phoneRepository.save(phone);
+    }
+
+    @Override
+    public List<Phone> getAllPhonesByPerson(Integer personId) {
+        return phoneRepository.findAllPhonesByPerson(personId);
     }
 
     private void verifyMainPhone(Phone phone, Integer personId) {
