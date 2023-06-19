@@ -47,7 +47,9 @@ public enum EnumMessagesException {
 
     MAIN_EMAIL_CANNOT_BE_DELETED(400, "Main email {0} cannot be deleted, try chossing another email as your main."),
 
-    EMAIL_NOT_FROM_PERSON(400, "Email {0} is not owned by person {1}.");
+    EMAIL_NOT_FROM_PERSON(400, "Email {0} is not owned by person {1}."),
+
+    PHONE_NOT_FOUND(400, "The phone {0} does not exist.");
 
     private final Integer statusCode;
 

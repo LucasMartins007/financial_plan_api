@@ -10,4 +10,7 @@ public interface PhoneService extends IAbstractService {
     Phone registerPhoneForPerson(Phone phone, Integer personId);
 
     List<Phone> getAllPhonesByPerson(Integer personId);
+
+    Phone findPhoneByIdAndPerson(Integer personId, Integer phoneId);
+
 }

@@ -29,4 +29,10 @@ public class PhoneController extends AbstractController<PhoneService> {
     public List<PhoneDTO> getAllPhonesByPerson(@PathVariable("{personId}") Integer personId) {
         return convertEntityToDTO(getService().getAllPhonesByPerson(personId), PhoneDTO.class);
     }
+
+    @GetMapping("/{phoneId}")
+    @ResponseStatus(HttpStatus.OK)
+    public PhoneDTO getPhoneById(@PathVariable("{personId}") Integer personId, @PathVariable("{phoneId}") Integer phoneId) {
+        return convertEntityToDTO(getService().findPhoneByIdAndPerson(personId, phoneId), PhoneDTO.class);
+    }
 }

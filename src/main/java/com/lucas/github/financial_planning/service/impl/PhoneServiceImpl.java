@@ -2,8 +2,10 @@ package com.lucas.github.financial_planning.service.impl;
 
 import com.lucas.github.financial_planning.exception.enums.EnumMessagesException;
 import com.lucas.github.financial_planning.exception.runtime.DomainRuntimeException;
+import com.lucas.github.financial_planning.model.entity.Person;
 import com.lucas.github.financial_planning.model.entity.Phone;
 import com.lucas.github.financial_planning.repository.PhoneRepository;
+import com.lucas.github.financial_planning.service.PersonService;
 import com.lucas.github.financial_planning.service.PhoneService;
 import com.lucas.github.financial_planning.service.generic.AbstractService;
 import com.lucas.github.financial_planning.utils.Utils;
@@ -36,6 +38,14 @@ public class PhoneServiceImpl extends AbstractService<Phone, Integer> implements
         return phoneRepository.findAllPhonesByPerson(personId);
     }
 
+    @Override
+    public Phone findPhoneByIdAndPerson(Integer personId, Integer phoneId) {
+        final Person person = getService(PersonService.class).findPersonById(personId);
+
+        return phoneRepository.findByIdAndPerson(phoneId, person)
+                .orElseThrow(() -> new DomainRuntimeException(EnumMessagesException.PHONE_NOT_FOUND, phoneId));
+    }
+
     private void verifyMainPhone(Phone phone, Integer personId) {
         final Phone mainPhone = phoneRepository.findMainPhoneByPersonId(personId);
         if (Utils.isEmpty(mainPhone) && !phone.isMainPhoneNumber()) {
@@ -48,7 +58,7 @@ public class PhoneServiceImpl extends AbstractService<Phone, Integer> implements
     }
 
     private void verifyDuplicatedPhone(String phoneNumber) {
-        phoneRepository.findPhoneByPhoneNumber(phoneNumber)
+        phoneRepository.findByPhoneNumber(phoneNumber)
                 .ifPresent(managedPhone -> {
                     throw new DomainRuntimeException(EnumMessagesException.DUPLICATED_PHONE, managedPhone.getPhoneNumber());
                 });
