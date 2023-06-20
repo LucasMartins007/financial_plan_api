@@ -18,7 +18,7 @@ public class PhoneController extends AbstractController<PhoneService> {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PhoneDTO registerPhone(@PathVariable("{personId}") Integer personId, @RequestBody PhoneDTO phoneDTO) {
+    public PhoneDTO registerPhone(@PathVariable("personId") Integer personId, @RequestBody PhoneDTO phoneDTO) {
         final Phone phone = convertDTOToEntity(phoneDTO, Phone.class);
 
         return convertEntityToDTO(getService().registerPhoneForPerson(phone, personId), PhoneDTO.class);
@@ -26,13 +26,13 @@ public class PhoneController extends AbstractController<PhoneService> {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<PhoneDTO> getAllPhonesByPerson(@PathVariable("{personId}") Integer personId) {
+    public List<PhoneDTO> getAllPhonesByPerson(@PathVariable("personId") Integer personId) {
         return convertEntityToDTO(getService().getAllPhonesByPerson(personId), PhoneDTO.class);
     }
 
     @GetMapping("/{phoneId}")
     @ResponseStatus(HttpStatus.OK)
-    public PhoneDTO getPhoneById(@PathVariable("{personId}") Integer personId, @PathVariable("{phoneId}") Integer phoneId) {
+    public PhoneDTO getPhoneById(@PathVariable("personId") Integer personId, @PathVariable("phoneId") Integer phoneId) {
         return convertEntityToDTO(getService().findPhoneByIdAndPerson(personId, phoneId), PhoneDTO.class);
     }
 }
