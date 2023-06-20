@@ -49,7 +49,11 @@ public enum EnumMessagesException {
 
     EMAIL_NOT_FROM_PERSON(400, "Email {0} is not owned by person {1}."),
 
-    PHONE_NOT_FOUND(400, "The phone {0} does not exist.");
+    PHONE_NOT_FOUND(400, "The phone {0} does not exist."),
+
+    BILL_IS_SINGLE_PAYMENT(400, "The bill {0} is a single payment bill, it have no installments."),
+
+    BILL_NOT_FOUND(400, "The bill {0} does not exist.");
 
     private final Integer statusCode;
 

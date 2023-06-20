@@ -1,5 +1,7 @@
 package com.lucas.github.financial_planning.service.impl;
 
+import com.lucas.github.financial_planning.exception.enums.EnumMessagesException;
+import com.lucas.github.financial_planning.exception.runtime.DomainRuntimeException;
 import com.lucas.github.financial_planning.model.entity.Bills;
 import com.lucas.github.financial_planning.model.entity.Installment;
 import com.lucas.github.financial_planning.model.entity.Person;
@@ -31,6 +33,14 @@ public class BillsServiceImpl extends AbstractService<Bills, Integer> implements
         resolveInstallments(bills);
 
         return getRepository().save(bills);
+    }
+
+    @Override
+    public List<Installment> findAllInstallmentsFromBill(Integer personId, Integer billId) {
+        final Bills bills = getRepository().findById(billId)
+                .orElseThrow(() -> new DomainRuntimeException(EnumMessagesException.BILL_NOT_FOUND, billId));
+
+        return installmentService.findAllInstallmentsByBill(bills);
     }
 
     private void resolveInstallments(Bills bills) {
