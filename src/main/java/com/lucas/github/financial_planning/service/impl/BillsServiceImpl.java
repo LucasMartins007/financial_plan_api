@@ -5,6 +5,7 @@ import com.lucas.github.financial_planning.exception.runtime.DomainRuntimeExcept
 import com.lucas.github.financial_planning.model.entity.Bills;
 import com.lucas.github.financial_planning.model.entity.Installment;
 import com.lucas.github.financial_planning.model.entity.Person;
+import com.lucas.github.financial_planning.repository.BillsRepository;
 import com.lucas.github.financial_planning.service.BillsService;
 import com.lucas.github.financial_planning.service.InstallmentService;
 import com.lucas.github.financial_planning.service.PersonService;
@@ -21,7 +22,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BillsServiceImpl extends AbstractService<Bills, Integer> implements BillsService {
 
+    private final BillsRepository billsRepository;
+
     private final InstallmentService installmentService;
+
 
     @Override
     public Bills registerNewBill(Bills bills, Integer personId) {
@@ -41,6 +45,13 @@ public class BillsServiceImpl extends AbstractService<Bills, Integer> implements
                 .orElseThrow(() -> new DomainRuntimeException(EnumMessagesException.BILL_NOT_FOUND, billId));
 
         return installmentService.findAllInstallmentsByBill(bills);
+    }
+
+    @Override
+    public List<Bills> findAllBillsFromPerson(Integer personId) {
+        final Person person = getService(PersonService.class).findPersonById(personId);
+
+        return billsRepository.findAllByPerson(person);
     }
 
     private void resolveInstallments(Bills bills) {

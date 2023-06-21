@@ -27,7 +27,13 @@ public class BillsController extends AbstractController<BillsService> {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<InstallmentDTO> listAllInstallmentsFromBill(@PathVariable("personId") Integer personId, @PathVariable("personId") Integer billId) {
+    public List<BillsDTO> listAllBillsFromPerson(@PathVariable("personId") Integer personId) {
+        return convertEntityToDTO(getService().findAllBillsFromPerson(personId), BillsDTO.class);
+    }
+
+    @GetMapping("{billId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<InstallmentDTO> listAllInstallmentsFromBill(@PathVariable("personId") Integer personId, @PathVariable("billId") Integer billId) {
         return convertEntityToDTO(getService().findAllInstallmentsFromBill(personId, billId), InstallmentDTO.class);
     }
 }

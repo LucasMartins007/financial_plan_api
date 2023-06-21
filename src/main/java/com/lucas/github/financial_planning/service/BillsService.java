@@ -10,4 +10,6 @@ public interface BillsService extends IAbstractService {
     Bills registerNewBill(Bills bills, Integer personId);
 
     List<Installment> findAllInstallmentsFromBill(Integer personId, Integer billId);
+
+    List<Bills> findAllBillsFromPerson(Integer personId);
 }
