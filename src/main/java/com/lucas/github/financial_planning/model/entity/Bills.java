@@ -2,12 +2,10 @@ package com.lucas.github.financial_planning.model.entity;
 
 import com.lucas.github.financial_planning.model.entity.generic.AbstractEntity;
 import com.lucas.github.financial_planning.model.enums.EnumCategory;
-import javax.persistence.*;
-
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +14,6 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "bills")
-@EqualsAndHashCode(callSuper = true)
 public class Bills extends AbstractEntity<Integer> {
 
     @Id

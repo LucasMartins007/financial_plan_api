@@ -15,7 +15,6 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "role")
-@EqualsAndHashCode(callSuper = true)
 public class Role extends AbstractEntity<Integer> {
 
     @Id

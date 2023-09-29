@@ -13,7 +13,6 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(name = "email")
-@EqualsAndHashCode(callSuper = true)
 public class Email extends AbstractEntity<Integer> {
 
     @Id

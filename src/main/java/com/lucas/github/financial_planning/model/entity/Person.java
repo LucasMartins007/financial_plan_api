@@ -2,7 +2,6 @@ package com.lucas.github.financial_planning.model.entity;
 
 
 import com.lucas.github.financial_planning.model.entity.generic.AbstractEntity;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +13,6 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "person")
-@EqualsAndHashCode(callSuper = true)
 public class Person extends AbstractEntity<Integer> {
 
     @Id

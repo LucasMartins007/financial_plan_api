@@ -13,7 +13,6 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(name = "users")
-@EqualsAndHashCode(callSuper = true)
 public class User extends AbstractEntity<Integer> {
 
     @Id
