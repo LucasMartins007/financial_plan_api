@@ -87,12 +87,18 @@ public class EmailServiceImpl extends AbstractService<Email, Integer> implements
     }
 
     private void verifyMainEmail(Email email, Integer personId) {
-        final Email mainEmail = emailRepository.findMainEmailByPersonId(personId);
-        if (Utils.isEmpty(mainEmail) && !email.isMainEmail()) {
+        emailRepository.findMainEmailByPersonId(personId)
+                .ifPresentOrElse((managedEmail) -> onMainEmailPresent(email), () -> onMainEmailEmpty(email));
+    }
+
+    private void onMainEmailEmpty(Email email) {
+        if (!email.isMainEmail()) {
             email.setMainEmail(true);
-            return;
         }
-        if (Utils.isNotEmpty(mainEmail) && email.isMainEmail()) {
+    }
+
+    private void onMainEmailPresent(Email email) {
+        if (email.isMainEmail()) {
             throw new DomainRuntimeException(EnumMessagesException.DUPLICATED_MAIN_EMAIL);
         }
     }
