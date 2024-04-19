@@ -1,7 +1,5 @@
 package com.lucas.github.financial_planning.service.impl;
 
-import com.lucas.github.financial_planning.exception.enums.EnumMessagesException;
-import com.lucas.github.financial_planning.exception.runtime.DomainRuntimeException;
 import com.lucas.github.financial_planning.model.entity.Bills;
 import com.lucas.github.financial_planning.model.entity.Installment;
 import com.lucas.github.financial_planning.repository.InstallmentRepository;
@@ -30,6 +28,13 @@ public class InstallmentServiceImpl extends AbstractService<Installment, Integer
         installment.setActive(true);
 
         return getRepository().save(installment);
+    }
+
+    @Override
+    public void updateInstallment(Installment installment, Integer installmentId) {
+        Validator.validate(EnumValidators.INSTALLMENT, installment);
+
+//        getRepository(InstallmentRepository.class)
     }
 
     @Override

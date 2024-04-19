@@ -49,15 +49,6 @@ spring:
     username: postgres
     password: admin
 
-  flyway:
-#    user: lucas
-#    password: admin
-    schemas: public
-#    flyway.url: jdbc:postgresql://localhost:5432/financial_planning
-    locations: "classpath:/db/migration"
-    enabled: true
-    validate-on-migrate: true
-
 server:
   port: 8081
   servlet:
