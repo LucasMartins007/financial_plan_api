@@ -1,0 +1,77 @@
+
+# Workflow responsável por automatizar a criação de uma branch de release
+# e uma abertura PR para a Master.
+
+# Está configurado para criar a branch de Release somente quando
+# for concluido um PR de uma branch Feature para a Develop
+# e o workflow de build e teste for concluído com sucesso.
+
+name: Create Release Branch and Pull Request
+
+on:
+  workflow_run:
+    workflows: [ "Maven Build And Run Test" ]
+    types:
+      - completed
+  pull_request:
+    types: [ closed ]
+
+jobs:
+  create_release:
+    name: Create Release Branch and PR
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Determine Triggering Event
+        id: event_type
+        run: echo "::set-output name=event::${{ github.event_name }}"
+
+      - name: Determine Next Release Version
+        id: next_release_version
+        run: |
+          last_release=$(git for-each-ref --format='%(refname)' refs/heads/release/v* | sed -n 's|refs/heads/release/v||p' | sort -n | tail -1)
+
+          if [[ -z "${last_release}" ]]; then
+            next_release="v0.1.0" 
+          else
+            major=$(echo "${last_release}" | cut -d. -f1)
+            minor=$(echo "${last_release}" | cut -d. -f2)
+            patch=$(echo "${last_release}" | cut -d. -f3)
+
+            if [[ "${major}" -eq 0 && "${minor}" -eq 9 && "${patch}" -eq 9 ]]; then
+              next_release="v1.0.0"
+          
+            elif [[ "${minor}" -eq 9 && "${patch}" -eq 9 ]]; then
+              next_release="v${major}.0.0"
+          
+            elif [[ "${patch}" -eq 9 ]]; then
+              next_release="v${major}.${minor}.0"
+          
+            else
+              next_release="v${major}.${minor}.$((patch + 1))"
+            fi
+          fi
+          echo "::set-output name=next_release::${next_release}"
+
+      - name: Create Release Branch
+        if: steps.event_type.outputs.event == 'workflow_run' 
+            && github.event.workflow_run.event == 'completed'
+
+        run: |
+          next_release="${{ steps.next_release_version.outputs.next_release }}"
+          git checkout develop
+          git pull origin develop
+          git checkout -b "release/${next_release}"
+          git push origin "release/${next_release}"
+
+      - name: Open Pull Request to Release
+        if: steps.event_type.outputs.event == 'pull_request' 
+            && github.event.pull_request.merged 
+            && github.event.pull_request.base.ref == 'develop'
+
+        run: |
+          next_release="${{ steps.next_release_version.outputs.next_release }}"
+          git checkout develop
+          git pull origin develop
+          git checkout -b "release/${next_release}"
+          git push origin "release/${next_release}"
