@@ -1,0 +1,30 @@
+name: MASTER - Create Release on Pull Request to Master
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+
+  Create_Release:
+    name: Create Release on PR to Master
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        with:
+          tag_name: PR-${{ github.event.pull_request.number }}
+          release_name: Release PR-${{ github.event.pull_request.number }}
+          body: |
+            Changes introduced by PR-${{ github.event.pull_request.number }}:
+            - Description of changes...
+          draft: false
+          prerelease: false

@@ -1,0 +1,26 @@
+name: 3 - DEVELOP - Opens Pull Request To Master
+
+on:
+  pull_request:
+    types: [ closed ]
+    branches: [ develop ]
+
+jobs:
+
+  Opens_Pull_Request_To_Master:
+    name: Opens Pull Request to Master
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          branch: ${{ github.ref }}
+          base: master
+          title: "Auto-generated PR for branch develop into master."
+          body: "This PR was automatically created because of a closed pull request in the develop branch."
+          draft: false
