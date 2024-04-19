@@ -7,33 +7,6 @@ on:
 
 jobs:
 
-  get_latest_release_name:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Get Latest Release Name
-        id: latest_release
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const response = await github.repos.getLatestRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo
-            });
-            
-            console.log(response.data.name);
-            
-            return {
-              release_name: response.data.name
-            };
-
-      - name: Display Latest Release Name
-        run: |
-          echo "Latest Release Name: ${{ steps.latest_release.outputs.release_name }}"
-
   Create_Release:
     name: Create Release on PR to Master
     runs-on: ubuntu-latest
