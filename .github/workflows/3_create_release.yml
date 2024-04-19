@@ -23,7 +23,7 @@ jobs:
       - name: Fetch last tag
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-        run: git tags
+        run: git tag
 
       - name: Fetch last tag
         env:
