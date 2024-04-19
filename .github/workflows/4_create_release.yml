@@ -7,6 +7,33 @@ on:
 
 jobs:
 
+  get_latest_release_name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Get Latest Release Name
+        id: latest_release
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const response = await github.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            
+            console.log(response.data.name);
+            
+            return {
+              release_name: response.data.name
+            };
+
+      - name: Display Latest Release Name
+        run: |
+          echo "Latest Release Name: ${{ steps.latest_release.outputs.release_name }}"
+
   Create_Release:
     name: Create Release on PR to Master
     runs-on: ubuntu-latest
@@ -14,39 +41,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Determine Next Release Version
-        id: next_release_version
-        run: |
-          latest_release_name=$(curl -s -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
-            https://api.github.com/repos/${{ github.repository }}/releases/latest | \
-            jq -r '.name')
-          echo "::set-output name=release_name::${latest_release_name}"
-          
-#          if [[ -z "${last_release}" ]]; then
-#            next_release="v0.1.0"  # Primeira versão de release
-#          else
-#            # Extrair os componentes da versão
-#            major=$(echo "${last_release}" | cut -d. -f1)
-#            minor=$(echo "${last_release}" | cut -d. -f2)
-#            patch=$(echo "${last_release}" | cut -d. -f3)
-#
-#            if [[ "${major}" -eq 0 && "${minor}" -eq 9 && "${patch}" -eq 9 ]]; then
-#              # Atingiu o máximo de patch (v0.9.9), incrementar major e resetar minor e patch
-#              next_release="v1.0.0"
-#            elif [[ "${minor}" -eq 9 && "${patch}" -eq 9 ]]; then
-#              # Atingiu o máximo de patch (excluindo versão v0.x.9), incrementar minor e resetar patch
-#              next_release="v${major}.0.0"
-#            elif [[ "${patch}" -eq 9 ]]; then
-#              # Atingiu o máximo de patch (excluindo versões v0.x.9 e v1.x.9), incrementar patch
-#              next_release="v${major}.${minor}.0"
-#            else
-#              # Incrementar patch
-#              next_release="v${major}.${minor}.$((patch + 1))"
-#            fi
-#          fi
-#
-#          echo "::set-output name=next_release::${next_release}"
 
       - name: Create Release
         id: create_release
