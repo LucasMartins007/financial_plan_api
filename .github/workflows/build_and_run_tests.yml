@@ -28,6 +28,7 @@ jobs:
   Run_Unit_Tests:
     name: Run Unit Tests
     runs-on: ubuntu-latest
+    needs: [ Build_Artifact ]
     steps:
       - name: Run Unit Tests
         run: mvn test
@@ -35,6 +36,7 @@ jobs:
   Save_Artifact:
     name: Save JAR Artifact
     runs-on: ubuntu-latest
+    needs: [ Run_Unit_Tests ]
 
     steps:
       - name: Save JAR Artifact
