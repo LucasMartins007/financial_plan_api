@@ -9,10 +9,6 @@
 name: Create Release Branch and Pull Request
 
 on:
-  workflow_run:
-    workflows: [ "Maven Build And Run Test" ]
-    types:
-      - completed
   pull_request:
     types: [ closed ]
 
