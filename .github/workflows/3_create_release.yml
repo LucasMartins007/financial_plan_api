@@ -31,7 +31,7 @@ jobs:
       - name: Get latest tag
         id: get_tag
         run: |
-          latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          latest_tag=$(git describe --tags --abbrev=0 HEAD 2>/dev/null || echo "")
           echo "::set-output name=latest_tag::${latest_tag}"
 
       - name: Set initial version if no tags found
@@ -43,7 +43,7 @@ jobs:
         id: determine_next_version
         run: |
           current_tag=${{ steps.get_tag.outputs.latest_tag }}
-          if [[ -z "$current_tag" ]]; then
+          if [[ -z "$current_tag" || "$current_tag" == "" ]]; then
             next_version="v0.0.0"
           else
             # Extract major, minor, and patch versions from the current tag
@@ -51,7 +51,7 @@ jobs:
             major=${version_parts[0]}
             minor=${version_parts[1]}
             patch=${version_parts[2]}
-          
+
             # Increment the version based on semantic versioning rules
             if [[ $patch == 9 ]]; then
               patch=0
@@ -64,7 +64,7 @@ jobs:
             else
               patch=$((patch + 1))
             fi
-          
+
             # Format the next version
             next_version="v${major}.${minor}.${patch}"
           fi
