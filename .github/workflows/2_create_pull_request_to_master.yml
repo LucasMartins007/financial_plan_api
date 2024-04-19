@@ -2,8 +2,10 @@ name: 2 - DEVELOP - Opens Pull Request To Master
 
 on:
   pull_request:
-    types: [ closed ]
-    branches: [ develop ]
+    branches:
+      - develop
+    types:
+      - closed
 
 jobs:
 
