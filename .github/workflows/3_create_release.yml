@@ -1,4 +1,4 @@
-name: 3 - MASTER - Create Release on Pull Request to Master
+name: 3 - MASTER - Create Release
 
 on:
   pull_request:
@@ -15,16 +15,38 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Determine current version
+        id: determine_version
+        run: |
+          latest_version=$(git tag | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
+          if [ -z "$latest_version" ]; then
+            echo "::set-output name=next_version::v0.0.1"
+          else
+            major=$(echo "$latest_version" | cut -d. -f1 | sed 's/v//')
+            minor=$(echo "$latest_version" | cut -d. -f2)
+            patch=$(echo "$latest_version" | cut -d. -f3)
+          
+            if [ "$patch" -lt 9 ]; then
+              next_version="v${major}.${minor}.$((patch + 1))"
+            elif [ "$minor" -lt 9 ]; then
+              next_version="v${major}.$((minor + 1)).0"
+            else
+              next_version="v$((major + 1)).0.0"
+            fi
+          
+            echo "::set-output name=next_version::$next_version"
+          fi
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         with:
-          tag_name: PR-V${{ github.event.pull_request.number }}
-          release_name: Release_PR-${{ github.event.pull_request.number }}
+          tag_name: ${{ steps.determine_version.outputs.next_version }}
+          release_name: ${{ steps.determine_version.outputs.next_version }}
           body: |
-            Changes introduced by Pull Request-${{ github.event.pull_request.number }}:
+            Changes introduced by ${{ steps.determine_version.outputs.next_version }}:
             - Description of changes...
           draft: false
           prerelease: false
