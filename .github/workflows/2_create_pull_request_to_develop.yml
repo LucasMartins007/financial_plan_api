@@ -15,18 +15,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Fetch latest changes
-        run: git fetch origin feature/${{ github.event.ref_name }}:${{ github.event.ref_name }}
-
-      - name: Checkout feature branch
-        run: git checkout feature/${{ github.event.ref_name }}
-
-      - name: Pull latest changes
-        run: git pull origin feature/${{ github.event.ref_name }}
-
       - name: Extract branch name
         id: extract_branch
         run: echo "::set-output name=branch_name::${GITHUB_REF#refs/heads/}"
+
+      - name: Fetch latest changes
+        run: git fetch origin feature/${{ steps.extract_branch.outputs.branch_name }}
+
+      - name: Checkout feature branch
+        run: git checkout feature/${{ steps.extract_branch.outputs.branch_name }}
+
+      - name: Pull latest changes
+        run: git pull origin feature/${{ steps.extract_branch.outputs.branch_name }}
+
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
