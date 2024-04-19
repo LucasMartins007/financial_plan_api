@@ -1,10 +1,11 @@
 name: Auto Open Pull Request to Develop
 
 on:
-  workflow_run:
-    workflows: [ "Maven Build And Run Test" ]
-    types:
-      - completed
+  push:
+    branches: [
+      feature/**,
+      fix/**
+    ]
 
 jobs:
   Open_Pull_Request:
