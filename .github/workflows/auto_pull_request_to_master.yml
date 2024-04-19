@@ -55,6 +55,8 @@ jobs:
           git pull origin develop
           git checkout -b "release/${next_release}"
           git push origin "release/${next_release}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
       - name: Open Pull Request to Release
         if: steps.event_type.outputs.event == 'pull_request'
@@ -67,3 +69,5 @@ jobs:
           git pull origin develop
           git checkout -b "release/${next_release}"
           git push origin "release/${next_release}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
