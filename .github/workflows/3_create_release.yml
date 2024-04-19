@@ -20,22 +20,38 @@ jobs:
         run: |
           latest_version=$(git tag | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
           if [ -z "$latest_version" ]; then
-            echo "::set-output name=next_version::v0.0.1"
+            next_version="v0.0.1"
           else
-            major=$(echo "$latest_version" | cut -d. -f1 | sed 's/v//')
-            minor=$(echo "$latest_version" | cut -d. -f2)
-            patch=$(echo "$latest_version" | cut -d. -f3)
+            IFS='.' read -r -a version_parts <<< "${latest_version:1}"
+            major=${version_parts[0]}
+            minor=${version_parts[1]}
+            patch=${version_parts[2]}
           
             if [ "$patch" -lt 9 ]; then
-              next_version="v${major}.${minor}.$((patch + 1))"
+              next_patch=$((patch + 1))
+              next_version="v${major}.${minor}.${next_patch}"
             elif [ "$minor" -lt 9 ]; then
-              next_version="v${major}.$((minor + 1)).0"
+              next_minor=$((minor + 1))
+              next_version="v${major}.${next_minor}.0"
             else
-              next_version="v$((major + 1)).0.0"
+              next_major=$((major + 1))
+              next_version="v${next_major}.0.0"
             fi
           
-            echo "::set-output name=next_version::$next_version"
+            while git rev-parse -q --verify "refs/tags/${next_version}" >/dev/null; do
+              if [ "$patch" -lt 9 ]; then
+                next_patch=$((next_patch + 1))
+                next_version="v${major}.${minor}.${next_patch}"
+              elif [ "$minor" -lt 9 ]; then
+                next_minor=$((next_minor + 1))
+                next_version="v${major}.${next_minor}.0"
+              else
+                next_major=$((next_major + 1))
+                next_version="v${next_major}.0.0"
+              fi
+            done
           fi
+          echo "::set-output name=next_version::$next_version"
 
       - name: Create Release
         id: create_release
