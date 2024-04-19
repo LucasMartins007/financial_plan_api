@@ -77,12 +77,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "::set-output name=branch_name::${GITHUB_REF#refs/heads/}"
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.PAT_TOKEN }}
-          branch: ${{ github.event.ref }}
+          branch: ${{ steps.extract_branch.outputs.branch_name }}
           base: develop
-          title: "Auto-generated PR for branch ${{ github.ref }} into develop."
-          body: "This PR was automatically created because of a new commit to branch ${{ github.ref }}."
+          title: "Auto-generated PR for branch ${{ steps.extract_branch.outputs.branch_name }} into develop."
+          body: "This PR was automatically created because of a new commit to branch ${{ steps.extract_branch.outputs.branch_name }}."
           draft: false
