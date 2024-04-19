@@ -34,9 +34,13 @@ jobs:
         run: |
           pr_count="${{ steps.pr_count.outputs.pr_count }}"
           if [ "$pr_count" -eq 0 ]; then
-            version="v0.0.1"
+            version="v0.0.0"
           else
-            version="v$(echo "$pr_count" | sed -E 's/([0-9])/\1./g; s/\.$//')"
+            # Transforma o número de PRs em formato vX.Y.Z
+            major=$((pr_count / 100 % 10))
+            minor=$((pr_count / 10 % 10))
+            patch=$((pr_count % 10))
+            version="v${major}.${minor}.${patch}"
           fi
           echo "::set-output name=version::$version"
 
