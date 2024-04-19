@@ -86,7 +86,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.PAT_TOKEN }}
-          branch: ${{ steps.extract_branch.outputs.branch_name }}
+          branch: ${{ github.ref }}
           base: develop
           title: "Auto-generated PR for branch ${{ steps.extract_branch.outputs.branch_name }} into develop."
           body: "This PR was automatically created because of a new commit to branch ${{ steps.extract_branch.outputs.branch_name }}."
