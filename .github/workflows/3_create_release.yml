@@ -15,7 +15,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Fetch all tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: git fetch --tags
+
       - name: Get latest tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         id: get_tag
         run: echo ::set-output name=latest_tag::$(git describe --tags --abbrev=0)
 
