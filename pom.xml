@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.lucas.github</groupId>
     <artifactId>financial_planning</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <name>financial_planning</name>
     <description>Demo project for Spring Boot</description>
     <properties>
