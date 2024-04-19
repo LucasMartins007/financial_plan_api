@@ -20,7 +20,7 @@ jobs:
         with:
           token: ${{ secrets.PAT_TOKEN }}
           branch: develop
-          base: develop
+          base: master
           title: "Auto-generated PR for branch develop into master."
           body: "This PR was automatically created because of a closed pull request in the develop branch."
           draft: false
