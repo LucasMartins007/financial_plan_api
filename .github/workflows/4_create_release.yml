@@ -1,4 +1,4 @@
-name: MASTER - Create Release on Pull Request to Master
+name: 4 - MASTER - Create Release on Pull Request to Master
 
 on:
   pull_request:
@@ -15,16 +15,49 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Determine Next Release Version
+        id: next_release_version
+        run: |
+          latest_release_name=$(curl -s -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/releases/latest | \
+            jq -r '.name')
+          echo "::set-output name=release_name::${latest_release_name}"
+          
+#          if [[ -z "${last_release}" ]]; then
+#            next_release="v0.1.0"  # Primeira versão de release
+#          else
+#            # Extrair os componentes da versão
+#            major=$(echo "${last_release}" | cut -d. -f1)
+#            minor=$(echo "${last_release}" | cut -d. -f2)
+#            patch=$(echo "${last_release}" | cut -d. -f3)
+#
+#            if [[ "${major}" -eq 0 && "${minor}" -eq 9 && "${patch}" -eq 9 ]]; then
+#              # Atingiu o máximo de patch (v0.9.9), incrementar major e resetar minor e patch
+#              next_release="v1.0.0"
+#            elif [[ "${minor}" -eq 9 && "${patch}" -eq 9 ]]; then
+#              # Atingiu o máximo de patch (excluindo versão v0.x.9), incrementar minor e resetar patch
+#              next_release="v${major}.0.0"
+#            elif [[ "${patch}" -eq 9 ]]; then
+#              # Atingiu o máximo de patch (excluindo versões v0.x.9 e v1.x.9), incrementar patch
+#              next_release="v${major}.${minor}.0"
+#            else
+#              # Incrementar patch
+#              next_release="v${major}.${minor}.$((patch + 1))"
+#            fi
+#          fi
+#
+#          echo "::set-output name=next_release::${next_release}"
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         with:
-          tag_name: PR-${{ github.event.pull_request.number }}
-          release_name: Release PR-${{ github.event.pull_request.number }}
+          tag_name: PR-V${{ github.event.pull_request.number }}
+          release_name: Release_PR-${{ github.event.pull_request.number }}
           body: |
-            Changes introduced by PR-${{ github.event.pull_request.number }}:
+            Changes introduced by Pull Request-${{ github.event.pull_request.number }}:
             - Description of changes...
           draft: false
           prerelease: false
