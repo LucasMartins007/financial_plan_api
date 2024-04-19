@@ -15,47 +15,38 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Determine current version
-        id: determine_version
-        run: |
-          latest_version=$(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
-          if [ -z "$latest_version" ]; then
-            next_version="v0.0.1"
-          else
-            IFS='.' read -r -a version_parts <<< "${latest_version:1}"
-            major=${version_parts[0]}
-            minor=${version_parts[1]}
-            patch=${version_parts[2]}
-          
-            while true; do
-              if [ "$patch" -lt 9 ]; then
-                next_patch=$((patch + 1))
-                next_version="v${major}.${minor}.${next_patch}"
-              elif [ "$minor" -lt 9 ]; then
-                next_minor=$((minor + 1))
-                next_version="v${major}.${next_minor}.0"
-              else
-                next_major=$((major + 1))
-                next_version="v${next_major}.0.0"
-              fi
+      - name: Get latest tag
+        id: get_tag
+        run: echo ::set-output name=latest_tag::$(git describe --tags --abbrev=0)
 
-              if git rev-parse -q --verify "refs/tags/${next_version}" >/dev/null; then
-                if [ "$patch" -lt 9 ]; then
-                  patch=$((patch + 1))
-                elif [ "$minor" -lt 9 ]; then
-                  minor=$((minor + 1))
-                  patch=0
-                else
-                  major=$((major + 1))
-                  minor=0
-                  patch=0
-                fi
-              else
-                break  # Sai do loop se a versão for única
-              fi
-            done
+      - name: Set initial version if no tags found
+        id: set_initial_version
+        if: steps.get_tag.outputs.latest_tag == ''
+        run: echo ::set-output name=latest_tag::v0.0.0
+
+      - name: Determine next version
+        id: determine_next_version
+        run: |
+          current_tag=${{ steps.get_tag.outputs.latest_tag }}
+          version_parts=(${current_tag//./ })
+          major=${version_parts[0]}
+          minor=${version_parts[1]}
+          patch=${version_parts[2]}
+          
+          if [[ $patch == 9 ]]; then
+            patch=0
+            if [[ $minor == 9 ]]; then
+              minor=0
+              major=$((major + 1))
+            else
+              minor=$((minor + 1))
+            fi
+          else
+            patch=$((patch + 1))
           fi
-          echo "::set-output name=next_version::$next_version"
+          
+          next_version="v${major}.${minor}.${patch}"
+          echo ::set-output name=next_version::${next_version}
 
       - name: Create Release
         id: create_release
@@ -63,10 +54,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         with:
-          tag_name: ${{ steps.determine_version.outputs.next_version }}
-          release_name: ${{ steps.determine_version.outputs.next_version }}
+          tag_name: ${{ steps.determine_next_version.outputs.next_version }}
+          release_name: ${{ steps.determine_next_version.outputs.next_version }}
           body: |
-            Changes introduced by ${{ steps.determine_version.outputs.next_version }}:
+            Changes introduced by ${{ steps.determine_next_version.outputs.next_version }}:
             - Description of changes...
           draft: false
           prerelease: false
