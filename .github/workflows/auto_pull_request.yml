@@ -19,7 +19,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
           branch: ${{ github.event.ref }}
           base: develop
           title: "Auto-generated PR for branch ${{ github.event.ref }} into develop."
