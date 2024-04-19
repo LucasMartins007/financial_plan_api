@@ -16,27 +16,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create Pull Request
-        run: |
-          # Define as variáveis
-          BASE_BRANCH="develop"
-          HEAD_BRANCH=${{ github.head_ref }}
-          PR_TITLE="Auto-generated PR for branch ${{ github.head_ref }} into develop."
-          PR_BODY="This PR was automatically created because of a new commit to branch ${{ github.head_ref }}."
-          
-          # Obtém o token de acesso do GitHub
-          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-          
-          # Cria o corpo do payload para a API do GitHub
-          payload='{
-            "title": "'"$PR_TITLE"'",
-            "body": "'"$PR_BODY"'",
-            "head": "'"$HEAD_BRANCH"'",
-            "base": "'"$BASE_BRANCH"'"
-          }'
-          
-          # Faz a chamada para a API do GitHub para criar o pull request
-          curl -X POST \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            -d "$payload" \
-            "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls"
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
+          base: develop
+          title: "Auto-generated PR for branch ${{ github.head_ref }} into develop."
+          body: "This PR was automatically created because of a new commit to branch ${{ github.head_ref }}."
