@@ -18,7 +18,7 @@ jobs:
       - name: Determine current version
         id: determine_version
         run: |
-          latest_version=$(git tag | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
+          latest_version=$(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
           if [ -z "$latest_version" ]; then
             next_version="v0.0.1"
           else
@@ -27,27 +27,31 @@ jobs:
             minor=${version_parts[1]}
             patch=${version_parts[2]}
           
-            if [ "$patch" -lt 9 ]; then
-              next_patch=$((patch + 1))
-              next_version="v${major}.${minor}.${next_patch}"
-            elif [ "$minor" -lt 9 ]; then
-              next_minor=$((minor + 1))
-              next_version="v${major}.${next_minor}.0"
-            else
-              next_major=$((major + 1))
-              next_version="v${next_major}.0.0"
-            fi
-          
-            while git rev-parse -q --verify "refs/tags/${next_version}" >/dev/null; do
+            while true; do
               if [ "$patch" -lt 9 ]; then
-                next_patch=$((next_patch + 1))
+                next_patch=$((patch + 1))
                 next_version="v${major}.${minor}.${next_patch}"
               elif [ "$minor" -lt 9 ]; then
-                next_minor=$((next_minor + 1))
+                next_minor=$((minor + 1))
                 next_version="v${major}.${next_minor}.0"
               else
-                next_major=$((next_major + 1))
+                next_major=$((major + 1))
                 next_version="v${next_major}.0.0"
+              fi
+
+              if git rev-parse -q --verify "refs/tags/${next_version}" >/dev/null; then
+                if [ "$patch" -lt 9 ]; then
+                  patch=$((patch + 1))
+                elif [ "$minor" -lt 9 ]; then
+                  minor=$((minor + 1))
+                  patch=0
+                else
+                  major=$((major + 1))
+                  minor=0
+                  patch=0
+                fi
+              else
+                break  # Sai do loop se a versão for única
               fi
             done
           fi
