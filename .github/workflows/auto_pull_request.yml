@@ -20,8 +20,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.head_ref }}
+          branch: ${{ github.event.ref }}
           base: develop
-          title: "Auto-generated PR for branch ${{ github.head_ref }} into develop."
-          body: "This PR was automatically created because of a new commit to branch ${{ github.head_ref }}."
-
+          title: "Auto-generated PR for branch ${{ github.event.ref }} into develop."
+          body: "This PR was automatically created because of a new commit to branch ${{ github.event.ref }}."
