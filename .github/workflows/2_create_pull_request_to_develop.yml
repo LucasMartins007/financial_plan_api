@@ -2,7 +2,7 @@ name: 2 - FEAT - Opens Pull Request To Develop
 
 on:
   workflow_run:
-    workflows: ["Build And Run Tests"]
+    workflows: ["1 - FEAT - Build And Run Tests"]
     types:
       - completed
 
