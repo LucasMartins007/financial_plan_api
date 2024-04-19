@@ -15,55 +15,30 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Fetch all tags
-        run: git fetch --tags
+      - name: Authenticate with GitHub Token
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-      - name: Fetch last tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-        run: git tag
-
-      - name: Get latest tag
-        id: get_tag
+      - name: Get open pull requests from develop to master
+        id: pr_count
         run: |
-          latest_tag=$(git describe --tags --abbrev=0 HEAD 2>/dev/null || echo "")
-          echo "::set-output name=latest_tag::${latest_tag}"
+          PR_COUNT=$(curl -s -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
+                    -H "Accept: application/vnd.github.v3+json" \
+                    "https://api.github.com/repos/${{ github.repository }}/pulls?state=open&base=master&head=develop" \
+                    | jq length)
+          echo "::set-output name=pr_count::$PR_COUNT"
 
-      - name: Set initial version if no tags found
-        id: set_initial_version
-        if: steps.get_tag.outputs.latest_tag == ''
-        run: echo "::set-output name=latest_tag::v0.0.0"
-
-      - name: Determine next version
-        id: determine_next_version
+      - name: Transform PR count to version
+        id: transform_version
         run: |
-          current_tag=${{ steps.get_tag.outputs.latest_tag }}
-          if [[ -z "$current_tag" || "$current_tag" == "" ]]; then
-            next_version="v0.0.0"
+          pr_count="${{ steps.pr_count.outputs.pr_count }}"
+          if [ "$pr_count" -eq 0 ]; then
+            version="v0.0.1"
           else
-            # Extract major, minor, and patch versions from the current tag
-            version_parts=(${current_tag//./ })
-            major=${version_parts[0]}
-            minor=${version_parts[1]}
-            patch=${version_parts[2]}
-
-            # Increment the version based on semantic versioning rules
-            if [[ $patch == 9 ]]; then
-              patch=0
-              if [[ $minor == 9 ]]; then
-                minor=0
-                major=$((major + 1))
-              else
-                minor=$((minor + 1))
-              fi
-            else
-              patch=$((patch + 1))
-            fi
-
-            # Format the next version
-            next_version="v${major}.${minor}.${patch}"
+            version="v$(echo "$pr_count" | sed -E 's/([0-9])/\1./g; s/\.$//')"
           fi
-          echo "::set-output name=next_version::${next_version}"
+          echo "::set-output name=version::$version"
 
       - name: Create Release
         id: create_release
@@ -71,10 +46,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         with:
-          tag_name: ${{ steps.determine_next_version.outputs.next_version }}
-          release_name: ${{ steps.determine_next_version.outputs.next_version }}
+          tag_name: ${{ steps.transform_version.outputs.version }}
+          release_name: ${{ steps.transform_version.outputs.version }}
           body: |
-            Changes introduced by ${{ steps.determine_next_version.outputs.next_version }}:
+            Changes introduced by ${{ steps.transform_version.outputs.version }}:
             - Description of changes...
           draft: false
           prerelease: false
