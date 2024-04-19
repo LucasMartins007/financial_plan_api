@@ -1,4 +1,4 @@
-name: [ DEVELOP ] Create Release Branch and Pull Request
+name: DEVELOP - Create Release Branch and Pull Request
 
 on:
   pull_request:

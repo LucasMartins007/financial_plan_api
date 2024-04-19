@@ -1,4 +1,4 @@
-name: [ FEAT ] Build And Pull Request
+name: FEAT - Build And Pull Request
 
 on:
   push:
