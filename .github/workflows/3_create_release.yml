@@ -1,4 +1,4 @@
-name: 4 - MASTER - Create Release on Pull Request to Master
+name: 3 - MASTER - Create Release on Pull Request to Master
 
 on:
   pull_request:

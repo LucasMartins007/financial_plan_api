@@ -1,4 +1,4 @@
-name: 3 - DEVELOP - Opens Pull Request To Master
+name: 2 - DEVELOP - Opens Pull Request To Master
 
 on:
   pull_request:
