@@ -1,16 +1,9 @@
-
-# Workflow responsável por automatizar a criação de uma branch de release
-# e uma abertura PR para a Master.
-
-# Está configurado para criar a branch de Release somente quando
-# for concluido um PR de uma branch Feature para a Develop
-# e o workflow de build e teste for concluído com sucesso.
-
-name: Create Release Branch and Pull Request
+name: [ DEVELOP ] Create Release Branch and Pull Request
 
 on:
   pull_request:
     types: [ closed ]
+    branches: [ develop ]
 
 jobs:
   create_release:
@@ -18,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Determine Triggering Event
         id: event_type
         run: echo "::set-output name=event::${{ github.event_name }}"
@@ -50,8 +46,8 @@ jobs:
           echo "::set-output name=next_release::${next_release}"
 
       - name: Create Release Branch
-        if: steps.event_type.outputs.event == 'workflow_run' 
-            && github.event.workflow_run.event == 'completed'
+        if: steps.event_type.outputs.event == 'workflow_run'
+          && github.event.workflow_run.event == 'completed'
 
         run: |
           next_release="${{ steps.next_release_version.outputs.next_release }}"
@@ -61,9 +57,9 @@ jobs:
           git push origin "release/${next_release}"
 
       - name: Open Pull Request to Release
-        if: steps.event_type.outputs.event == 'pull_request' 
-            && github.event.pull_request.merged 
-            && github.event.pull_request.base.ref == 'develop'
+        if: steps.event_type.outputs.event == 'pull_request'
+          && github.event.pull_request.merged
+          && github.event.pull_request.base.ref == 'develop'
 
         run: |
           next_release="${{ steps.next_release_version.outputs.next_release }}"
