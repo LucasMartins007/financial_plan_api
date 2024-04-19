@@ -24,3 +24,4 @@ jobs:
           base: develop
           title: "Auto-generated PR for branch ${{ github.event.ref }} into develop."
           body: "This PR was automatically created because of a new commit to branch ${{ github.event.ref }}."
+          draft: false
