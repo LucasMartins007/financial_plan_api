@@ -23,11 +23,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: git tag
 
-      - name: Fetch last tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-        run: git describe --tags --abbrev=0
-
       - name: Get latest tag
         id: get_tag
         run: |
