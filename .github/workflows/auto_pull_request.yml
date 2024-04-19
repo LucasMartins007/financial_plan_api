@@ -1,0 +1,34 @@
+# Workflow responsável por automatizar a criação de um PR para a develop
+
+# Está configurado para criar um PR somente quando
+# for concluido o workflow de build e teste com sucesso.
+
+# Enquanto um PR ainda estiver aberto, os commits na branch serão mesclados
+# no mesmo PR, até o mesmo ser fechado e concluído
+
+name: Auto Open Pull Request for Feature Branch
+
+on:
+  workflow_run:
+    workflows: [ "Maven Build And Run Test" ]
+    types:
+      - completed
+
+jobs:
+  open_pull_request:
+    name: Open Pull Request For Feature Branch
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
+          base: develop
+          title: "Auto-generated PR for branch ${{ github.head_ref }} into develop."
+          body: "This PR was automatically created because of a new commit to branch ${{ github.head_ref }}."

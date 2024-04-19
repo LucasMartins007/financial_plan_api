@@ -10,6 +10,8 @@ public interface InstallmentService extends IAbstractService  {
 
     Installment registerInstallment(Installment installment);
 
+    void updateInstallment(Installment installment, Integer installmentId);
+
     List<Installment> findAllInstallmentsByBill(Bills bills);
 
 }
