@@ -1,4 +1,4 @@
-name: 1 - FEAT - Build And Run Tests
+name: 1 - FEAT - Build And Opens Pull Request To Develop
 
 on:
   push:
@@ -68,3 +68,25 @@ jobs:
         with:
           name: financial_planning-${{ github.run_number }}
           path: target/*.jar
+
+  Opens_Pull_Request_To_Develop:
+    name: Opens Pull Request to Develop
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "::set-output name=branch_name::${GITHUB_REF#refs/heads/}"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          branch: ${{ github.ref }}
+          base: develop
+          title: "Auto-generated PR for branch ${{ steps.extract_branch.outputs.branch_name }} into develop."
+          body: "This PR was automatically created because of a new commit to branch ${{ steps.extract_branch.outputs.branch_name }}."
+          draft: false
