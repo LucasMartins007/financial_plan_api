@@ -23,30 +23,28 @@ jobs:
         id: list_prs
         run: |
           page=1
-          count=0
+          total_count=0
           while :
           do
-            PR_COUNT=$(curl -s -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
+            current_count=$(curl -s -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
                     -H "Accept: application/vnd.github.v3+json" \
                     "https://api.github.com/repos/${{ github.repository }}/pulls?state=closed&base=master&head=develop&page=${page}" \
                     | jq length)
-            count=$((count + PR_COUNT))
+            count=$((total_count + current_count))
 
-            if [ $PR_COUNT -eq 0 ]; then
+            if [ $current_count -eq 0 ]; then
               break
             fi
 
-            if [ $PR_COUNT -eq 30 ]; then
+            if [ $current_count -eq 30 ]; then
               page=$((page + 1))
             else
               break
             fi
           done
-          echo "::set-output name=pr_count::$count"
-
-#      - name: Set PR Count as Output
-#        id: set_pr_count
-#        run: echo "::set-output name=pr_count::$count"
+          
+#         Definindo variável count como saída
+          echo "::set-output name=pr_count::$total_count"
 
       - name: Transform PR Count to Version
         id: transform_version
@@ -61,6 +59,8 @@ jobs:
             patch=$((pr_count % 10))
             version="v${major}.${minor}.${patch}"
           fi
+
+#         Definindo variável version como saída
           echo "::set-output name=version::$version"
 
       - name: Create Release
