@@ -19,8 +19,8 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: List Pull Requests
-        id: list_prs
+      - name: Get Total Pull Requests
+        id: get_total_pr
         run: |
           page=1
           total_count=0
@@ -30,7 +30,7 @@ jobs:
                     -H "Accept: application/vnd.github.v3+json" \
                     "https://api.github.com/repos/${{ github.repository }}/pulls?state=closed&base=master&head=develop&page=${page}" \
                     | jq length)
-            count=$((total_count + current_count))
+            total_count=$((total_count + current_count))
 
             if [ $current_count -eq 0 ]; then
               break
@@ -47,7 +47,7 @@ jobs:
       - name: Transform PR Count to Version
         id: transform_version
         run: |
-          pr_count="${{ steps.list_prs.outputs.pr_count }}"
+          pr_count="${{ steps.get_total_pr.outputs.pr_count }}"
           if [ "$pr_count" -eq 0 ]; then
             version="v0.0.0"
           else
