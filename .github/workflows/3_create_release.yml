@@ -36,7 +36,6 @@ jobs:
               break
             fi
 
-            echo "$response" | jq -r '.[] | .title'
             if [ $current_pr_count -eq 30 ]; then
               page=$((page + 1))
             else
