@@ -42,6 +42,7 @@ jobs:
               break
             fi
           done
+          echo "::set-output name=pr_count::count"
 
       - name: Set PR Count as Output
         id: set_pr_count
