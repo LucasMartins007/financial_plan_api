@@ -6,7 +6,6 @@ on:
     types: [ closed ]
 
 jobs:
-
   Opens_Pull_Request_To_Master:
     name: Opens Pull Request to Master
     runs-on: ubuntu-latest
