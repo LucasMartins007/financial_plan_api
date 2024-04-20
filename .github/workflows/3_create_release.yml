@@ -28,15 +28,15 @@ jobs:
           do
             response=$(curl -s -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
                              -H "Accept: application/vnd.github.v3+json" \
-                             "https://api.github.com/repos/LucasMartins007/financial_plan_api/pulls?state=closed&base=master&head=develop&page=${page}")
-            pr_count=$(echo "$response" | jq length)
+                             "https://api.github.com/repos/${{ github.repository }}/pulls?state=closed&base=master&head=develop&page=${page}")
+            current_pr_count=$(echo "$response" | jq length)
+            pr_count=$((pr_count + current_pr_count))
 
-            if [ $pr_count -eq 0 ]; then
+            if [ $current_pr_count -eq 0 ]; then
               break
             fi
 
-            # Verificar se há mais páginas e atualizar o número da página
-            if [ $pr_count -eq 30 ]; then
+            if [ $current_pr_count -eq 30 ]; then
               page=$((page + 1))
             else
               break
