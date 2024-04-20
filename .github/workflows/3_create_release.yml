@@ -42,16 +42,16 @@ jobs:
               break
             fi
           done
-          echo "::set-output name=pr_count::count"
+          echo "::set-output name=pr_count::$count"
 
-      - name: Set PR Count as Output
-        id: set_pr_count
-        run: echo "::set-output name=pr_count::$count"
+#      - name: Set PR Count as Output
+#        id: set_pr_count
+#        run: echo "::set-output name=pr_count::$count"
 
       - name: Transform PR Count to Version
         id: transform_version
         run: |
-          pr_count="${{ steps.set_pr_count.outputs.pr_count }}"
+          pr_count="${{ steps.list_prs.outputs.pr_count }}"
           if [ "$pr_count" -eq 0 ]; then
             version="v0.0.0"
           else
