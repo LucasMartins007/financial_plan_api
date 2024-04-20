@@ -71,4 +71,4 @@ jobs:
             Changes introduced by ${{ steps.transform_version.outputs.version }}:
             - Description of changes...
           draft: false
-          prerelease: false
+          prerelease: true
