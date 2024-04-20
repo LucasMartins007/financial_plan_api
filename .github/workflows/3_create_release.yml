@@ -35,7 +35,7 @@ jobs:
             if [ $current_pr_count -eq 0 ]; then
               break
             fi
-
+          
             if [ $current_pr_count -eq 30 ]; then
               page=$((page + 1))
             else
