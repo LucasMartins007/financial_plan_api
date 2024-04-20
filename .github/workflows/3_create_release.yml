@@ -42,8 +42,6 @@ jobs:
               break
             fi
           done
-          
-#         Definindo variável count como saída
           echo "::set-output name=pr_count::$total_count"
 
       - name: Transform PR Count to Version
@@ -59,8 +57,6 @@ jobs:
             patch=$((pr_count % 10))
             version="v${major}.${minor}.${patch}"
           fi
-
-#         Definindo variável version como saída
           echo "::set-output name=version::$version"
 
       - name: Create Release
